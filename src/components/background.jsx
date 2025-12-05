@@ -232,7 +232,7 @@ export default function Background() {
       <div className="w-full flex items-start justify-center">
         <div className="w-full">
           {selected ? (
-            <CardInfo project={selected} onClose={() => setSelected(null)} githubToken={token.token} />
+            <CardInfo project={selected} onClose={() => setSelected(null)} githubToken={token} />
           ) : (
             <div className="">
             </div>

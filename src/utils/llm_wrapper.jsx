@@ -1,5 +1,5 @@
 // utils/llm_wrapper.jsx
-const GROQ_API_KEY = process.env.REACT_GROQ_API_KEY;
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 
 /**
  * System prompt principale - in italiano.

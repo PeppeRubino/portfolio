@@ -85,7 +85,7 @@ export default function Background() {
   const [sidebarOpenMobile, setSidebarOpenMobile] = useState(false);
   const [disabledOnMobile, setDisabledOnMobile] = useState(false);
   const rootRef = useRef(null);
-  const token = process.env.REACT_GITHUB_TOKEN;
+  const token = import.meta.env.VITE_GITHUB_API_KEY;
 
 
   // refs per le singole aree dove vogliamo i floaters

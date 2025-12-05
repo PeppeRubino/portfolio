@@ -1,0 +1,120 @@
+.selected-btn {
+  background: linear-gradient(180deg,#f5f5f7,#e5e5ea);
+  box-shadow: 0 6px 14px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+
+
+
+/* basic wrapper */
+.reveal-wrapper {
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  /* initial "off" state for entrance */
+  transform: translateY(8px) scale(0.996);
+  opacity: 0;
+  filter: blur(6px);
+  transition:
+    transform 520ms cubic-bezier(.18,.8,.25,1),
+    opacity 420ms ease,
+    filter 520ms ease;
+  /* use CSS var --delay set inline per-button */
+  transition-delay: var(--delay, 0ms);
+  will-change: transform, opacity, filter;
+}
+
+/* When nav has .buttons-mounted the buttons animate in */
+.buttons-mounted .reveal-wrapper {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* selected vs not selected micro-behaviour */
+.reveal-wrapper.not-selected-btn:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+.reveal-wrapper.selected-btn {
+  transform: scale(1.03);
+}
+
+/* reveal highlight (radial) */
+.reveal-highlight {
+  position: absolute;
+  pointer-events: none;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.65) 0%,
+    rgba(255,255,255,0.32) 28%,
+    rgba(255,255,255,0.12) 56%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: translate(-50%, -50%) scale(1);
+  filter: blur(22px);
+  opacity: 0;
+  transition: opacity 220ms cubic-bezier(.2,.9,.3,1), transform 260ms ease;
+  mix-blend-mode: screen; /* softer, mac-like bloom */
+  z-index: 2;
+}
+
+/* show on hover / focus-within */
+.reveal-wrapper:hover .reveal-highlight,
+.reveal-wrapper:focus-within .reveal-highlight {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* press bloom — small brightening near cursor on pointerdown */
+.reveal-press {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255,255,255,0.06), rgba(255,255,255,0.02) 35%, rgba(255,255,255,0) 60%);
+  opacity: 0;
+  transition: opacity 160ms ease;
+  z-index: 3;
+  mix-blend-mode: normal;
+}
+
+/* show small bloom briefly when active (click) via :active — keeps it snappy */
+.reveal-wrapper:active .reveal-press {
+  opacity: 1;
+  transition-duration: 120ms;
+}
+
+/* icon must be above highlight and press */
+.reveal-wrapper > svg,
+.reveal-wrapper .w-7 {
+  position: relative;
+  z-index: 10;
+}
+
+/* focus-visible accessible style */
+.reveal-wrapper:focus-visible {
+  box-shadow: 0 6px 14px rgba(56, 96, 255, 0.12);
+  outline: none;
+}
+
+/* small polish: make the ring for selected look soft */
+.selected-btn {
+  box-shadow: 0 8px 18px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.6);
+  border-radius: 14px;
+}
+
+/* reduce animation for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-wrapper,
+  .reveal-highlight,
+  .reveal-press {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}

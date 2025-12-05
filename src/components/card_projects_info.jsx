@@ -83,7 +83,10 @@ function renderLanguageBar(languages = {}) {
   // normalize to sum 100
   const totalPct = percents.reduce((s, [, pct]) => s + pct, 0) || 0.000001;
   const normalized = percents.map(([lang, pct]) => [lang, (pct / totalPct) * 100]);
-
+  
+useEffect(() => {
+  setProjects(projectsData);
+}, []);
   return (
     <>
       <div

@@ -1,7 +1,13 @@
+/** @type {import('tailwindcss').Config} */
 const config = {
-  plugins: {
-    "@tailwindcss/postcss": {},
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}" // tutti i file React
+  ],
+  theme: {
+    extend: {},
   },
+  plugins: [],
 };
 
 export default config;

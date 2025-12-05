@@ -1,7 +1,5 @@
-// src/components/CardInfo.jsx
 import React, { useEffect, useState } from "react";
 import { useGithubRepo } from "../utils/useGithubRepo.js";
-import projects from '../media/data/projects.json'
 
 const GITHUB_COLORS = {
   JavaScript: "#f1e05a",
@@ -83,10 +81,7 @@ function renderLanguageBar(languages = {}) {
   // normalize to sum 100
   const totalPct = percents.reduce((s, [, pct]) => s + pct, 0) || 0.000001;
   const normalized = percents.map(([lang, pct]) => [lang, (pct / totalPct) * 100]);
-  
-useEffect(() => {
-  setProjects(projectsData);
-}, []);
+
   return (
     <>
       <div
@@ -171,6 +166,12 @@ export function CardInfo({ project = null, onClose = () => { }, githubToken = nu
         const res = await fetch(apiUrl, { signal: controller.signal, headers });
         if (abort) return;
 
+        if (!res.ok) {
+          setRepoCreatedAt(null);
+          setRepoError(`GitHub API non OK: ${res.status}`);
+          return;
+        }
+
         let data = null;
         try { data = await res.json(); } catch { data = null; }
 
@@ -182,6 +183,7 @@ export function CardInfo({ project = null, onClose = () => { }, githubToken = nu
       } catch (e) {
         if (e.name !== "AbortError") {
           setRepoCreatedAt(null);
+          setRepoError(e.message || String(e));
         }
       } finally {
         if (!abort) setRepoLoading(false);

@@ -1,6 +1,7 @@
 // src/components/CardHome.jsx
 import React, { useState, useEffect, useRef } from "react";
 import me from '../assets/media/me.png';
+import brandingIcon from '../assets/media/icona.png';
 
 /* Typewriter (React-friendly, con cursor lampeggiante) */
 function Typewriter({ words = [], delay = 2000, className = "" }) {
@@ -107,10 +108,10 @@ export function CardHome({
 
           <div className="flex-1 flex flex-col gap-5 select-none">
               <div className="flex flex-col gap-3">
-                <div className="inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500">
-                  Full-stack / AI engineering
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
-                </div>
+          <div className="inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500">
+            Full-stack / AI engineering
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
+          </div>
               <div className="flex flex-col md:flex-row md:items-end md:gap-3">
                 <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">{name}</h1>
                 <span className="text-sm font-medium text-slate-500">Autodidatta · Nato il 21·11·1995</span>

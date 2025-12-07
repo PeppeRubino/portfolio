@@ -1,6 +1,6 @@
 // src/components/card_projects.jsx
 import React, { useEffect, useState } from "react";
-import projectsData from "../media/data/projects.json"; // import DEFAULT dal JSON
+import projectsData from "../assets/data/projects.json"; // import DEFAULT dal JSON
 
 /**
  * CardLeft
@@ -10,10 +10,28 @@ import projectsData from "../media/data/projects.json"; // import DEFAULT dal JS
  *    - selectedId: id del progetto selezionato
  */
 
-export function CardLeft({ projects = null, onSelect = () => { }, selectedId = null }) {
+export function CardLeft({
+  projects = null,
+  onSelect = () => {},
+  selectedId = null,
+}) {
   // usa i progetti passati via prop, altrimenti il JSON locale
-  const initialProjects = Array.isArray(projects) && projects.length > 0 ? projects : (Array.isArray(projectsData) ? projectsData : []);
+  const initialProjects =
+    Array.isArray(projects) && projects.length > 0
+      ? projects
+      : Array.isArray(projectsData)
+      ? projectsData
+      : [];
+
   const [localProjects, setLocalProjects] = useState(initialProjects);
+
+  // 👇 nuovo: rileviamo se siamo su mobile (< 768px)
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false
+  );
+
+  // 👇 nuovo: id del progetto in “focus” da mobile
+  const [mobileFocusId, setMobileFocusId] = useState(null);
 
   useEffect(() => {
     // se cambiano le props esterne, aggiorna lo stato locale
@@ -21,6 +39,55 @@ export function CardLeft({ projects = null, onSelect = () => { }, selectedId = n
       setLocalProjects(projects);
     }
   }, [projects]);
+
+  useEffect(() => {
+    // aggiorna isMobile su resize
+    function handleResize() {
+      if (typeof window === "undefined") return;
+      setIsMobile(window.innerWidth < 768);
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    // se da fuori viene deselezionato il progetto, togli anche il focus mobile
+    if (!selectedId) {
+      setMobileFocusId(null);
+    }
+  }, [selectedId]);
+
+  // ordiniamo una sola volta la lista di base
+  const sortedProjects = [...localProjects].sort(
+    (a, b) => Number(Boolean(b.favorite)) - Number(Boolean(a.favorite))
+  );
+
+  // 👇 qui succede la magia:
+  // se siamo su mobile e c'è un focus, mostriamo SOLO quel progetto
+  const visibleProjects =
+    isMobile && mobileFocusId
+      ? sortedProjects.filter((p) => p.id === mobileFocusId)
+      : sortedProjects;
+
+  const handleClickProject = (p) => {
+    if (!isMobile) {
+      // desktop: comportamento classico
+      onSelect(p);
+      return;
+    }
+
+    // mobile: toggle focus + selezione
+    if (mobileFocusId === p.id) {
+      // secondo tap: togli focus e deseleziona
+      setMobileFocusId(null);
+      onSelect(null);
+    } else {
+      // primo tap (o altro progetto): focus su questo
+      setMobileFocusId(p.id);
+      onSelect(p);
+    }
+  };
 
   return (
     <aside
@@ -30,26 +97,60 @@ export function CardLeft({ projects = null, onSelect = () => { }, selectedId = n
         boxShadow: "rgba(15, 23, 42, 0.06) 0px 6px 12px",
       }}
     >
-
       <div className="h-full flex flex-col">
         <header className="mb-6">
-          <h1 className="text-2xl font-semibold text-gray-800">Progetti (Solo)</h1>
-          <p className="text-sm text-gray-500 mt-1">Lista progetti e % completamento</p>
+          <h1 className="text-2xl font-semibold text-gray-800">Progetti</h1>
+          <p className="text-sm text-gray-500 mt-1">Progetti sviluppati da me</p>
         </header>
 
-        <nav className="flex-1 overflow-auto pr-2">
+        <nav className="flex-1 overflow-auto p-2">
           <ul className="space-y-4">
-            {localProjects.map((p) => {
+            {visibleProjects.map((p) => {
               const isSelected = selectedId === p.id;
+              const isFavorite = Boolean(p.favorite);
+              const tags = [];
+
+              if (isFavorite) {
+                tags.push({
+                  key: "favorite",
+                  label: "Prioritario",
+                  icon: <StarIcon className="w-3.5 h-3.5 text-amber-500" />,
+                  className: "text-amber-700 bg-amber-50/90",
+                });
+              }
+
+              const catList =
+                Array.isArray(p.categories) && p.categories.length
+                  ? p.categories
+                  : p.category
+                  ? [p.category]
+                  : [];
+
+              catList.forEach((cat, idx) => {
+                const badge = getCategoryBadge(cat);
+                if (!badge) return;
+                tags.push({
+                  key: `category-${idx}`,
+                  label: badge.label,
+                  icon: (
+                    <TagIcon className={`w-3 h-3 ${badge.iconColor}`} />
+                  ),
+                  className: `${badge.text} ${badge.bg}`,
+                });
+              });
+
               return (
                 <li key={p.id}>
                   <button
-                    onClick={() => onSelect(p)}
+                    onClick={() => handleClickProject(p)}
                     className={
                       `w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start ` +
                       (isSelected
                         ? `scale-102 shadow-2xl ring-2 ring-indigo-200`
-                        : `hover:-translate-y-0.5 hover:shadow-lg`)
+                        : `hover:-translate-y-0.5 hover:shadow-lg`) +
+                      (isFavorite && !isSelected
+                        ? ` ring-1 ring-amber-200/80`
+                        : ``)
                     }
                     style={{
                       background: isSelected
@@ -57,16 +158,45 @@ export function CardLeft({ projects = null, onSelect = () => { }, selectedId = n
                         : "linear-gradient(180deg,#fafafa,#efefef)",
                       boxShadow: isSelected
                         ? "0 8px 18px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
-                        : "0 6px 12px rgba(15,23,42,0.06)"
+                        : isFavorite
+                        ? "0 10px 20px rgba(251,191,36,0.25)"
+                        : "0 6px 12px rgba(15,23,42,0.06)",
+                      border:
+                        isFavorite && !isSelected
+                          ? "1px solid rgba(251,191,36,0.45)"
+                          : "1px solid transparent",
                     }}
                   >
                     <div className="w-full flex items-center justify-between">
-                      <div>
-                        <div className="text-sm font-medium text-gray-800">{p.name}</div>
-                        {p.subtitle && <div className="text-xs text-gray-500 mt-1">{p.subtitle}</div>}
+                      <div className="flex flex-col gap-1">
+                        <div className="text-sm font-medium text-gray-800">
+                          {p.name}
+                        </div>
+                        {p.subtitle && (
+                          <div className="text-xs text-gray-500 mt-1">
+                            {p.subtitle}
+                          </div>
+                        )}
+                        {tags.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {tags.map((tag) => (
+                              <span
+                                key={tag.key}
+                                className={`inline-flex items-center gap-1 text-[0.65rem] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full ${tag.className}`}
+                              >
+                                {tag.icon}
+                                {tag.label}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
 
-                      <div className="text-xs text-gray-400 ml-4">{p.createdAt}</div>
+                      {p.createdAt && (
+                        <div className="text-xs text-gray-400 ml-4">
+                          {p.createdAt}
+                        </div>
+                      )}
                     </div>
 
                     {/* barra stilistica grigia */}
@@ -81,6 +211,79 @@ export function CardLeft({ projects = null, onSelect = () => { }, selectedId = n
         </nav>
       </div>
     </aside>
+  );
+}
+
+function StarIcon(props) {
+  return (
+    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
+      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.146 3.513a1 1 0 00.95.69h3.688c.969 0 1.371 1.24.588 1.81l-2.985 2.17a1 1 0 00-.364 1.118l1.146 3.513c.3.921-.755 1.688-1.54 1.118l-2.985-2.17a1 1 0 00-1.176 0l-2.985 2.17c-.784.57-1.838-.197-1.54-1.118l1.146-3.513a1 1 0 00-.364-1.118L2.62 8.94c-.783-.57-.38-1.81.588-1.81h3.688a1 1 0 00.95-.69l1.146-3.513z" />
+    </svg>
+  );
+}
+
+function TagIcon(props) {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" {...props}>
+      <path d="M2 6.5V2.667A1.667 1.667 0 013.667 1h3.833c.442 0 .866.176 1.179.489L14 6.81a1.667 1.667 0 010 2.357l-3.834 3.834a1.667 1.667 0 01-2.357 0L2.49 7.683A1.667 1.667 0 012 6.5z" />
+    </svg>
+  );
+}
+
+const CATEGORY_BADGES = {
+  "Web APP": {
+    label: "Web App",
+    text: "text-emerald-800",
+    bg: "bg-emerald-50/90",
+    iconColor: "text-emerald-500",
+  },
+  "Sito Web": {
+    label: "Web",
+    text: "text-sky-800",
+    bg: "bg-sky-50/90",
+    iconColor: "text-sky-500",
+  },
+  Automazione: {
+    label: "Automation",
+    text: "text-rose-800",
+    bg: "bg-rose-50/90",
+    iconColor: "text-rose-500",
+  },
+  App: {
+    label: "App",
+    text: "text-indigo-800",
+    bg: "bg-indigo-50/90",
+    iconColor: "text-indigo-500",
+  },
+  "Rete Neurale": {
+    label: "AI / ML",
+    text: "text-purple-800",
+    bg: "bg-purple-50/90",
+    iconColor: "text-purple-500",
+  },
+  "AI / ML": {
+    label: "AI / ML",
+    text: "text-purple-800",
+    bg: "bg-purple-50/90",
+    iconColor: "text-purple-500",
+  },
+  Simulation: {
+    label: "Simulation",
+    text: "text-amber-900",
+    bg: "bg-amber-50/90",
+    iconColor: "text-amber-500",
+  },
+};
+
+function getCategoryBadge(category) {
+  if (!category) return null;
+  return (
+    CATEGORY_BADGES[category] || {
+      label: category,
+      text: "text-slate-800",
+      bg: "bg-slate-50/90",
+      iconColor: "text-slate-500",
+    }
   );
 }
 

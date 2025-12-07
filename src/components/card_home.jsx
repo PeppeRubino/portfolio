@@ -1,7 +1,6 @@
 // src/components/CardHome.jsx
 import React, { useState, useEffect, useRef } from "react";
-import me from '../media/img/me.png';
-import './styles/card_home.css'; // stili non-animazione (sizing, hover, media queries)
+import me from '../assets/media/me.png';
 
 /* Typewriter (React-friendly, con cursor lampeggiante) */
 function Typewriter({ words = [], delay = 2000, className = "" }) {
@@ -55,9 +54,9 @@ function Typewriter({ words = [], delay = 2000, className = "" }) {
   // rendering (aria-live per screen reader)
   const visible = words && words.length ? words[index].substring(0, subIndex) : "";
   return (
-    <span className={`typewriter inline-flex items-center ${className}`} aria-live="polite">
+    <span className={`inline-flex items-center ${className}`} aria-live="polite">
       <span className="typewriter-text">{visible}</span>
-      <span className="typewriter-cursor" aria-hidden>{blink ? "│" : " "}</span>
+      <span className="typewriter-cursor" aria-hidden>{blink ? "|" : " "}</span>
     </span>
   );
 }
@@ -66,14 +65,14 @@ function Typewriter({ words = [], delay = 2000, className = "" }) {
 export function CardHome({
   name = "Giuseppe Rubino",
   roles = [
-    "Bachelor in Psychology",
-    "AI-powered Developer",
-    "Web & Frontend dev",
-    "Automation (Python, SikuliX)",
-    "GitHub / Project Enthusiast",
-    "Creative Technologist"
+    "AI transcription & diarization",
+    "LLM + automation pipelines",
+    "Synthetic ecosystem simulations",
+    "Full-stack product delivery",
+    "Vision-guided desktop apps",
   ],
-  bio = "Dottore in Scienze e Tecniche Psicologiche (110 e lode) con formazione autonoma in IA, sviluppo software e data analysis, specializzato in modelli neurali, automazioni e web app."
+  bio = "Full-stack engineer con background in Scienze e Tecniche Psicologiche: progetto web app end-to-end, modelli neurali e sistemi AI generativi. Mi piace trasformare i brief in prototipi e MVP rapidi, curando UX, API e deploy.",
+  onSelectFocus = () => {}
 }) {
   const wrapperRef = useRef(null);
 
@@ -91,34 +90,78 @@ export function CardHome({
       {/* NOTA: floaters rimossi — qui resta solo la card principale */}
 
       <aside
-        className="card h-full w-full max-w-md p-6 backdrop-blur-sm rounded-2xl nmj animate-fadeIn relative z-10"
-        style={{
-          background: 'linear-gradient(180deg,#ffffffcc,#f3f4f6cc)',
-          boxShadow: '0 10px 30px rgba(15,23,42,0.12)'
-        }}
+        className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
       >
-        <div className="h-full flex flex-col relative z-10">
-          <header className="mb-6 text-center">
+        <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8 select-none">
+          <div
+            className="w-32 h-32 md:w-44 md:h-44 rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(15,23,42,0.2)] ring-4 ring-white/40"
+            style={{ flexShrink: 0 }}
+          >
             <img
               src={me}
               alt="Foto profilo"
-              className="w-24 h-24 md:w-32 md:h-32 rounded-full mx-auto mb-4 shadow-md animate-photoEntrance"
-              style={{ objectFit: 'cover' }}
+              className="w-full h-full object-cover"
+              loading="lazy"
             />
-            <h1 className="text-xl md:text-2xl font-semibold text-gray-800 animate-slideUp">{name}</h1>
-            <p className="text-xs md:text-sm text-gray-500 mt-1 animate-slideUp">
-              <span className="inline-flex items-center gap-1">I'm <Typewriter words={roles} delay={1500} /></span>
-            </p>
-          </header>
+          </div>
 
-          <section className="flex-1">
-            <p className="text-gray-600 text-center mb-6 animate-fadeIn delay-400">{bio}</p>
-            <div className="flex justify-center space-x-4 flex-wrap">
+          <div className="flex-1 flex flex-col gap-5 select-none">
+              <div className="flex flex-col gap-3">
+                <div className="inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500">
+                  Full-stack / AI engineering
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
+                </div>
+              <div className="flex flex-col md:flex-row md:items-end md:gap-3">
+                <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">{name}</h1>
+                <span className="text-sm font-medium text-slate-500">Autodidatta · Nato il 21·11·1995</span>
+              </div>
+              <p className="text-base md:text-lg text-slate-600 leading-relaxed">
+                {bio}
+              </p>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Sul sito trovi anche{" "}
+                <button
+                  type="button"
+                  onClick={() => onSelectFocus('assistant')}
+                  className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-semibold text-indigo-700 bg-white/90 border border-indigo-100 shadow-[0_12px_30px_rgba(79,70,229,0.15)] hover:shadow-[0_16px_36px_rgba(79,70,229,0.25)] transition"
+                >
+                  Luce
+                </button>
+                , il mio assistente AI pronta a guidarti tra i progetti in tempo reale.
+              </p>
+              <div className="text-sm text-indigo-600 font-semibold flex items-center gap-2">
+                <span>Focus:</span>
+                <Typewriter words={roles} delay={1400} className="font-semibold text-slate-900" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 select-none md:grid-cols-3">
+              {[
+                { title: "Frontend", chip: "UI Layer", items: ["React", "Vite", "Tailwind"], key: "frontend" },
+                { title: "Backend & Ops", chip: "APIs & Deploy", items: ["Node.js", "Python", "REST/API"], key: "backend" },
+                { title: "AI / Automation", chip: "LLM & CV", items: ["LLM", "Whisper", "Computer Vision"], key: "ai" },
+              ].map((block) => (
+                <button
+                  key={block.title}
+                  type="button"
+                  onClick={() => onSelectFocus(block.key)}
+                  className="flex h-full flex-col rounded-[22px] border border-white/60 bg-linear-to-br from-indigo-50/90 via-white to-white/95 p-4 text-left shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-1"
+                >
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
+                    {block.chip}
+                  </div>
+                  <div className="text-base font-semibold text-slate-900">{block.title}</div>
+                  <div className="flex-1 text-sm leading-6 text-slate-600">{block.items.join(" / ")}</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
               <a
-                href="https://github.com"
+                href="https://github.com/PeppeRubino"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-indigo-600 transition transform hover:scale-110 hover:rotate-3 animate-bounceIn"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5"
               >
                 GitHub
               </a>
@@ -126,18 +169,18 @@ export function CardHome({
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-indigo-600 transition transform hover:scale-110 hover:rotate-3 animate-bounceIn delay-200"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5"
               >
                 LinkedIn
               </a>
               <a
-                href="mailto:email@example.com"
-                className="text-gray-500 hover:text-indigo-600 transition transform hover:scale-110 hover:rotate-3 animate-bounceIn delay-400"
+                href="mailto:peppe.rubino95@gmail.com"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5"
               >
                 Contattami
               </a>
             </div>
-          </section>
+          </div>
         </div>
       </aside>
     </div>

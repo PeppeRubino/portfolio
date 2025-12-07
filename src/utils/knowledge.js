@@ -1,6 +1,6 @@
 // utils/knowledge.js
-import projects from "../media/data/projects.json"; // adatta il path se necessario
-import about from "../media/data/about.json";
+import projects from "../assets/data/projects.json"; // adatta il path se necessario
+import about from "../assets/data/about.json";
 
 /**
  * Funzioni di utilità

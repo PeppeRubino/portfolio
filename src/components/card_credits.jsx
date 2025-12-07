@@ -1,143 +1,88 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import cvPdf from "../assets/data/Giuseppe_Rubino_CV.pdf";
 
-export default function CardCredits({
-  title = "Credits",
-  sections = [
-    {
-      title: "Development",
-      items: [
-        "Giuseppe Rubino – Lead Developer",
-        "AI/ML Systems",
-        "Frontend Architecture"
-      ]
-    },
-    {
-      title: "Design",
-      items: ["UI/UX Concepts", "Interaction Design"]
-    },
-    {
-      title: "Special Thanks",
-      items: ["Open Source Community", "Psychology & Cognitive Science Dept."]
-    }
-  ],
-  speed = 30 // px/sec
-}) {
-  const wrapperRef = useRef(null);
-  const maskRef = useRef(null);
-  const contentRef = useRef(null);
-  const rafRef = useRef(null);
-  const [paused, setPaused] = useState(false);
+const SECTIONS = [
+  {
+    title: "Profilo",
+    items: [
+      "Giuseppe Rubino – Full-stack & AI Engineer autodidatta (laurea in Scienze e Tecniche Psicologiche, 110 e lode).",
+      "Costruisco prodotti end-to-end: UX, backend API, modelli neurali, automazioni e deploy.",
+      "Il sito e GitHub documentano i progetti chiave (Decod, Pixel-dèi, BrocaMetrics, automazioni AI) con codice e demo consultabili."
+    ]
+  },
+  {
+    title: "Delivery Principali",
+    items: [
+      "Decod – app desktop per trascrizione & diarizzazione con Faster-Whisper, Silero VAD, Resemblyzer, riconoscimento facciale e flussi Stripe/Firebase per licenze.",
+      "Pixel-dèi – simulatore di ecosistemi sintetici data-oriented (NumPy, DearPyGui) che studia complessità, agenti e metriche scientifiche.",
+      "LLM & Automation – pipeline Groq/OpenAI per chatbot vocali (Luce), automazioni PC con Python/SikuliX, orchestrazione REST e tool operativi.",
+      "BrocaMetrics & ClassMetrics – web app React/Three.js/Chart.js per visualizzazioni 3D e reporting educativo con dataset interattivi."
+    ]
+  },
+  {
+    title: "Tooling & Stack",
+    items: [
+      "Frontend: React, Vite, Tailwind, Three.js, WebAudio, WebGL.",
+      "Backend & Ops: Node.js, Python, Firebase, Firestore, Stripe, CI/CD per build Vite/Nuitka.",
+      "AI/ML: Faster-Whisper, Silero VAD, Resemblyzer, facenet-pytorch, Piper TTS, NumPy, Groq/OpenAI LLM.",
+      "Automation & Packaging: SikuliX, ffmpeg, DearPyGui, Nuitka/PyInstaller con gestione asset e modelli."
+    ]
+  },
+  {
+    title: "Riferimenti CV",
+    items: [
+      "Formazione: L-24 Scienze e Tecniche Psicologiche (UNIME), background in ricerca cognitiva e divulgazione.",
+      "Competenze soft: leadership di progetto, comunicazione tecnica-clienti, gestione timeline MVP e cicli di iterazione rapida.",
+      "Il curriculum dettagliato è disponibile in PDF e include timeline, responsabilità e risultati misurabili per ciascun progetto."
+    ]
+  },
+  {
+    title: "Special Thanks",
+    items: [
+      "Open-source & scientific community",
+      "OpenAI, Groq e i team di ricerca che rendono disponibili modelli e API",
+      "Clienti, mentor e colleghi che hanno contribuito alla validazione dei prodotti"
+    ]
+  }
+];
 
-  useEffect(() => {
-    const mask = maskRef.current;
-    const content = contentRef.current;
-    if (!mask || !content) return;
-
-    let y = mask.offsetHeight; // Start with text below the visible area
-    let last = performance.now();
-    let totalHeight = Math.floor(content.offsetHeight / 2);
-    let maskHeight = mask.offsetHeight;
-
-    function loop(now) {
-      const dt = (now - last) / 1000;
-      last = now;
-
-      // Update measurements in case of resize or font load
-      const currentMaskHeight = mask.offsetHeight;
-      const measured = Math.floor(content.offsetHeight / 2);
-      if (measured > 0) totalHeight = measured;
-
-      // If mask height changes (e.g., due to resize), reset y to new mask height to restart from bottom
-      if (currentMaskHeight !== maskHeight) {
-        y = currentMaskHeight;
-        maskHeight = currentMaskHeight;
-      }
-
-      if (!paused && totalHeight > 0) {
-        y -= speed * dt;
-        // When we've scrolled one copy, cycle by adding the height of one copy
-        if (y <= -totalHeight) {
-          y += totalHeight;
-        }
-        content.style.transform = `translateY(${y}px)`;
-      } else {
-        // Keep the transform when paused to avoid jumps on resume
-        content.style.transform = `translateY(${y}px)`;
-      }
-
-      rafRef.current = requestAnimationFrame(loop);
-    }
-
-    rafRef.current = requestAnimationFrame(loop);
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [paused, speed, sections]); // Restart if sections change
-
+export default function CardCredits() {
   return (
-    <div
-      ref={wrapperRef}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      className="relative w-full flex justify-center items-center min-h-[340px] md:min-h-[480px] p-4 md:p-6"
-    >
-      <div className="
-        w-full max-w-sm md:max-w-lg
-        p-4 md:p-6
-        rounded-2xl md:rounded-3xl
-        shadow-md md:shadow-xl
-        backdrop-blur-sm
-        relative z-10
-        bg-[linear-gradient(180deg,#ffffffcc,#f3f4f6cc)]
-      ">
-        {/* Title */}
-        <h2 className="text-center text-lg md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6 animate-fadeIn">
-          {title}
-        </h2>
-        {/* Scroll Mask */}
-        <div ref={maskRef} className="h-64 md:h-96 overflow-hidden relative">
-          <div
-            ref={contentRef}
-            className="flex flex-col gap-4 md:gap-6 py-2 will-change-transform"
-          >
-            {/* COPY 1 */}
-            {sections.map((s, idx) => (
-              <div key={"a-" + idx}>
-                <h3 className="text-xs md:text-base font-semibold text-gray-700 mb-1 md:mb-2">
-                  {s.title}
-                </h3>
-                <ul className="list-none p-0 m-0">
-                  {s.items.map((item, i) => (
-                    <li key={i} className="text-[0.65rem] md:text-sm text-gray-600 py-0.5 md:py-1">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-            {/* COPY 2 (identica alla prima per loop senza stacchi) */}
-            {sections.map((s, idx) => (
-              <div key={"b-" + idx}>
-                <h3 className="text-xs md:text-base font-semibold text-gray-700 mb-1 md:mb-2">
-                  {s.title}
-                </h3>
-                <ul className="list-none p-0 m-0">
-                  {s.items.map((item, i) => (
-                    <li key={i} className="text-[0.65rem] md:text-sm text-gray-600 py-0.5 md:py-1">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+    <section className="w-full">
+      <div className="mx-auto flex h-[75vh] w-full max-w-4xl flex-col gap-6 overflow-hidden rounded-4xl border border-white/60 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+        <header className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Professional Credits · 21·11·1995</p>
+          <h2 className="text-2xl font-semibold text-slate-900 mt-2">Portfolio & Curriculum Highlights</h2>
+          <p className="text-sm text-slate-500 mt-2">
+            Estratto dei risultati principali presenti nel portfolio e nel curriculum ufficiale. Ogni progetto combina ricerca, sviluppo e distribuzione end-to-end.
+          </p>
+        </header>
+
+        <div className="flex-1 space-y-5 overflow-y-auto pr-2">
+          {SECTIONS.map((section) => (
+            <div key={section.title} className="rounded-2xl bg-white/80 p-4 shadow-[0_12px_35px_rgba(15,23,42,0.08)] border border-white/70">
+              <h3 className="text-sm font-semibold text-slate-800 uppercase tracking-[0.2em]">{section.title}</h3>
+              <ul className="mt-3 list-disc space-y-2 pl-4 text-sm text-slate-600">
+                {section.items.map((item, idx) => (
+                  <li key={`${section.title}-${idx}`}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        {/* Footer */}
-        <p className="text-center mt-4 md:mt-6 text-[0.6rem] md:text-xs text-gray-500">
-          © {new Date().getFullYear()} – All Rights Reserved
-        </p>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/60 pt-4 text-sm text-slate-600">
+          <span>© {new Date().getFullYear()} Giuseppe Rubino – Portfolio & GitHub</span>
+          <a
+            href="https://github.com/PeppeRubino"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition hover:-translate-y-0.5"
+          >
+            Vai su GitHub
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

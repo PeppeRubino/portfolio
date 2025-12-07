@@ -1,6 +1,11 @@
 // Floaters.jsx
 import React, { useEffect, useRef, useState } from "react";
-import './styles/floaters.css'; // aggiungi regole specifiche per i floaters qui
+
+const SIZE_CLASS = {
+  big: "text-[1.75rem] md:text-[2.35rem] font-semibold",
+  mid: "text-[1.12rem] md:text-[1.35rem] font-medium",
+  small: "text-base md:text-[1.05rem] font-normal",
+};
 
 export default function Floaters({
   skills = [],
@@ -15,7 +20,7 @@ export default function Floaters({
   const floatersRef = useRef([]);
   const elemRefs = useRef(new Map());
   const rafRef = useRef(null);
-  const [paintTick, setPaintTick] = useState(0);
+  const [, setPaintTick] = useState(0);
 
   // inizializza floaters quando cambiano skills o disabled
   useEffect(() => {
@@ -31,16 +36,16 @@ export default function Floaters({
     const W = rect ? rect.width : window.innerWidth;
     const H = rect ? rect.height : window.innerHeight;
 
-    const items = skills.slice(0, maxItems).map((s, i) => {
-      const x = Math.random() * W;
-      const y = Math.random() * H;
-      const baseSpeed = speedMin + Math.random() * (speedMax - speedMin);
-      const angle = Math.random() * Math.PI * 2;
-      const vx = Math.cos(angle) * baseSpeed * slow;
-      const vy = Math.sin(angle) * baseSpeed * slow;
-      const size = i % 3 === 0 ? 'big' : i % 3 === 1 ? 'mid' : 'small';
-      return { id: i, text: s, x, y, vx, vy, size, paused: false };
-    });
+      const items = skills.slice(0, maxItems).map((s, i) => {
+        const x = Math.random() * W;
+        const y = Math.random() * H;
+        const baseSpeed = speedMin + Math.random() * (speedMax - speedMin);
+        const angle = Math.random() * Math.PI * 2;
+        const vx = Math.cos(angle) * baseSpeed * slow;
+        const vy = Math.sin(angle) * baseSpeed * slow;
+        const size = i % 3 === 0 ? 'big' : i % 3 === 1 ? 'mid' : 'small';
+        return { id: i, text: s, x, y, vx, vy, size, paused: false, highlighted: false, opacity: 1 };
+      });
 
     floatersRef.current = items;
     setPaintTick(t => t + 1);
@@ -66,20 +71,35 @@ export default function Floaters({
       const H = rect.height;
 
       const arr = floatersRef.current;
+      const wrapMargin = Math.max(margin, 60);
+      const fadeZone = Math.max(80, wrapMargin * 0.6);
+
       for (let i = 0; i < arr.length; i++) {
         const f = arr[i];
         if (f.paused) continue;
         f.x += f.vx * dt;
         f.y += f.vy * dt;
 
-        if (f.x < -margin) f.x = W + margin;
-        else if (f.x > W + margin) f.x = -margin;
-        if (f.y < -margin) f.y = H + margin;
-        else if (f.y > H + margin) f.y = -margin;
+        if (f.x < -wrapMargin) f.x = W + wrapMargin;
+        else if (f.x > W + wrapMargin) f.x = -wrapMargin;
+        if (f.y < -wrapMargin) f.y = H + wrapMargin;
+        else if (f.y > H + wrapMargin) f.y = -wrapMargin;
+
+        let opacity = 0.2;
+        if (f.x < 0 || f.x > W) {
+          opacity = 0;
+        } else if (f.x < fadeZone) {
+          opacity = Math.max(0, (f.x / fadeZone) * 0.2);
+        } else if (f.x > W - fadeZone) {
+          opacity = Math.max(0, ((W - f.x) / fadeZone) * 0.2);
+        }
+        f.opacity = opacity;
 
         const el = elemRefs.current.get(f.id);
         if (el) {
-          el.style.transform = `translate3d(${f.x}px, ${f.y}px, 0)`;
+          const scale = f.highlighted ? 1.05 : 1;
+          el.style.transform = `translate3d(${f.x}px, ${f.y}px, 0) scale(${scale})`;
+          el.style.opacity = f.opacity;
         }
       }
 
@@ -98,8 +118,8 @@ export default function Floaters({
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].id === id) {
         arr[i].paused = true;
-        const el = elemRefs.current.get(id);
-        if (el) el.classList.add('highlight');
+        arr[i].highlighted = true;
+        setPaintTick((t) => t + 1);
         break;
       }
     }
@@ -109,8 +129,8 @@ export default function Floaters({
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].id === id) {
         arr[i].paused = false;
-        const el = elemRefs.current.get(id);
-        if (el) el.classList.remove('highlight');
+        arr[i].highlighted = false;
+        setPaintTick((t) => t + 1);
         break;
       }
     }
@@ -120,41 +140,36 @@ export default function Floaters({
 
   // pointer-events on container should be none; each floater uses pointer-events:auto to allow hover
   return (
-    <div className="floaters-layer absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+    <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
       {floatersForRender.map((f) => (
         <span
           key={f.id}
           ref={(el) => {
             if (el) {
               elemRefs.current.set(f.id, el);
-              el.style.transform = `translate3d(${f.x}px, ${f.y}px, 0)`;
+              const scale = f.highlighted ? 1.05 : 1;
+              el.style.transform = `translate3d(${f.x}px, ${f.y}px, 0) scale(${scale})`;
             } else {
               elemRefs.current.delete(f.id);
             }
           }}
-          className={`floater ${f.size}`}
           onMouseEnter={() => handleEnter(f.id)}
           onMouseLeave={() => handleLeave(f.id)}
+          className={[
+            "absolute left-0 top-0 inline-block select-none pointer-events-auto",
+            "text-slate-400/70 tracking-tight will-change-transform transition duration-200",
+            SIZE_CLASS[f.size] || SIZE_CLASS.small,
+            f.highlighted
+              ? "text-indigo-500 drop-shadow-[0_12px_32px_rgba(79,70,229,0.25)]"
+              : "hover:text-indigo-400/80"
+          ].join(" ")}
           style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
             transform: `translate3d(${f.x}px, ${f.y}px, 0)`,
-            pointerEvents: 'auto',
             whiteSpace: 'nowrap',
-            willChange: 'transform, opacity',
+            opacity: f.highlighted ? Math.min(1, (f.opacity ?? 0.2) + 0.5) : (f.opacity ?? 0.2),
           }}
         >
-          <span
-            className="animate-chill"
-            style={{
-              '--chill-duration': `${40 + (f.id % 8) * 5}s`,
-              animationDelay: `${(f.id % 7) * 0.6}s`,
-              display: 'inline-block',
-            }}
-          >
-            {f.text}
-          </span>
+          {f.text}
         </span>
       ))}
     </div>

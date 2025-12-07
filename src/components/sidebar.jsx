@@ -1,8 +1,7 @@
 // File: src/components/Sidebar.jsx
 import React, { useMemo, useEffect, useState } from 'react';
-import './styles/sidebar.css';
 
-export default function Sidebar({ active, onChange, widthClass = 'w-20' }) {
+export default function Sidebar({ active, onChange, widthClass = 'w-20', variant = 'fixed' }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,21 +20,21 @@ export default function Sidebar({ active, onChange, widthClass = 'w-20' }) {
     []
   );
 
+  const layoutClasses =
+    variant === 'fixed'
+      ? `fixed left-0 top-0 h-full ${widthClass}`
+      : `relative h-full w-full`;
+
   return (
     <nav
       aria-label="Main sidebar"
-      className={`
-        fixed left-0 top-0 h-full ${widthClass}
-        flex flex-col items-center py-6
-        backdrop-blur-sm rounded-r-2xl z-40
-        ${mounted ? 'buttons-mounted' : ''}
-      `}
+      className={`${layoutClasses} flex flex-col items-center py-6 px-2 rounded-r-2xl z-40 select-none`}
       style={{
-        background: "linear-gradient(180deg,#fafafa,#efefef)",
-        boxShadow: "4px 0 12px rgba(15,23,42,0.06)"
+        background: 'linear-gradient(180deg,#fafafa,#efefef)',
+        boxShadow: '4px 0 12px rgba(15,23,42,0.06)',
       }}
     >
-      <div className="flex flex-col space-y-5 mt-2">
+      <div className="flex flex-col gap-5 mt-2">
         {buttons.map((b, idx) => {
           const selected = active === b.key;
 
@@ -44,52 +43,54 @@ export default function Sidebar({ active, onChange, widthClass = 'w-20' }) {
               key={b.key}
               title={b.title}
               aria-pressed={selected}
-              onClick={() => onChange(selected ? null : b.key)}
+              onClick={() => onChange(selected ? 'home' : b.key)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  onChange(selected ? null : b.key);
+                  onChange(selected ? 'home' : b.key);
                 }
               }}
               onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                // update CSS vars used by the highlight
                 e.currentTarget.style.setProperty('--mx', `${x}px`);
                 e.currentTarget.style.setProperty('--my', `${y}px`);
               }}
-              // --delay used for staggered mount animation
+              className={[
+                'group relative w-14 h-14 rounded-2xl flex items-center justify-center',
+                'transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200',
+                mounted ? 'opacity-100 blur-0 translate-y-0' : 'opacity-0 blur-sm translate-y-3',
+                selected ? 'ring-1 ring-white/40 scale-105' : 'hover:-translate-y-1',
+              ].join(' ')}
               style={{
-                ['--delay']: `${idx * 70}ms`,
+                transitionDelay: mounted ? `${idx * 70}ms` : '0ms',
                 background: selected
-                  ? "linear-gradient(180deg,#ffffff,#f3f4f6)"
-                  : "linear-gradient(180deg,#fafafa,#efefef)",
+                  ? 'linear-gradient(180deg,#ffffff,#f3f4f6)'
+                  : 'linear-gradient(180deg,#fafafa,#efefef)',
                 boxShadow: selected
-                  ? "0 6px 14px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.6)"
-                  : "0 4px 10px rgba(15,23,42,0.05)",
+                  ? '0 8px 18px rgba(15,23,42,0.10), inset 0 1px 0 rgba(255,255,255,0.6)'
+                  : '0 6px 14px rgba(15,23,42,0.06)',
               }}
-              className={`
-                reveal-wrapper
-                w-14 h-14 rounded-2xl flex items-center justify-center
-                transition-transform duration-300 relative focus:outline-none
-                ${selected
-                  ? "selected-btn"
-                  : "not-selected-btn"}
-              `}
             >
-              {/* Apple Reveal highlight */}
               <div
-                className="reveal-highlight"
+                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-hover:opacity-60"
                 style={{
-                  left: 'var(--mx, 50%)',
-                  top: 'var(--my, 50%)',
+                  background:
+                    'radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.65), rgba(255,255,255,0.05) 65%)',
+                  mixBlendMode: 'screen',
+                  zIndex: 1,
                 }}
               />
-
-              {/* subtle pressed bloom (layer above highlight, below icon) */}
-              <div className="reveal-press" aria-hidden="true" />
-
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-active:opacity-70 transition-opacity duration-150"
+                style={{
+                  background:
+                    'radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.18), rgba(255,255,255,0) 45%)',
+                  zIndex: 2,
+                }}
+              />
               <b.icon className="w-7 h-7 text-gray-700 relative z-10" aria-hidden="true" />
               <span className="sr-only">{b.label}</span>
             </button>
@@ -97,7 +98,7 @@ export default function Sidebar({ active, onChange, widthClass = 'w-20' }) {
         })}
       </div>
 
-      <div className="mt-auto mb-4 text-xs text-gray-400">G. Rubino</div>
+      <div className="mt-auto mb-4 text-xs font-semibold text-gray-400">G. Rubino</div>
     </nav>
   );
 }

@@ -70,11 +70,26 @@ export default function useProjectMedia(project) {
       if (!rawSrc) return null;
 
       const type = item.type ?? forcedType ?? (rawSrc.match(/\.(mp4|webm|ogg)(\?|$)/i) ? 'video' : 'image');
+      const previewRaw =
+        item.preview ??
+        item.previewUrl ??
+        item.previewSrc ??
+        null;
+
+      const captionText =
+        item.caption ??
+        item.description ??
+        item.title ??
+        item.alt ??
+        "";
+
       return {
         id: item.id ?? `${(p && p.id) || 'proj'}-m-${type}-${idx}`,
         type,
         src: resolveAsset(rawSrc, assetMap),
-        thumb: resolveAsset(item.thumb ?? item.poster ?? item.preview ?? null, assetMap),
+        thumb: resolveAsset(item.thumb ?? item.poster ?? null, assetMap),
+        preview: resolveAsset(previewRaw, assetMap),
+        caption: captionText,
         alt: item.alt ?? item.title ?? '',
         poster: resolveAsset(item.poster ?? null, assetMap),
         priority: item.priority ?? false,

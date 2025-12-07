@@ -90,7 +90,7 @@ export function CardHome({
       {/* NOTA: floaters rimossi — qui resta solo la card principale */}
 
       <aside
-        className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
+          className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
       >
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8 select-none">
           <div
@@ -145,7 +145,7 @@ export function CardHome({
                   key={block.title}
                   type="button"
                   onClick={() => onSelectFocus(block.key)}
-                  className="flex h-full flex-col rounded-[22px] border border-white/60 bg-linear-to-br from-indigo-50/90 via-white to-white/95 p-4 text-left shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-1"
+                  className="flex h-full flex-col rounded-[22px] border border-white/60 bg-gradient-to-br from-indigo-50/90 via-white to-white/95 p-4 text-left shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-1"
                 >
                   <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
                     {block.chip}

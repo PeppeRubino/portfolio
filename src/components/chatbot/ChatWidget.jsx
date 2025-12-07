@@ -110,7 +110,7 @@ export default function ChatWidget({ className = '' }) {
 
   return (
     <section className={`my-16 flex w-full items-center justify-center px-4 ${className}`}>
-      <div className="relative z-20 w-full max-w-2xl rounded-[34px] border border-white/70 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_35px_100px_rgba(15,23,42,0.25)]">
+      <div className="relative z-20 w-full max-w-2xl rounded-[34px] border border-white/70 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_35px_100px_rgba(15,23,42,0.25)]">
         <div className="absolute inset-x-6 top-6 h-12 rounded-2xl bg-white/60 blur-2xl" aria-hidden />
         <div className="relative flex flex-col gap-6">
           <div className="flex flex-col gap-5 rounded-2xl border border-white/70 bg-white/85 px-4 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
@@ -122,10 +122,12 @@ export default function ChatWidget({ className = '' }) {
                   <span className="rounded-full bg-slate-900/90 px-2 py-0.5 text-[0.5rem] font-semibold uppercase tracking-[0.25em] text-white shadow">Voice only</span>
                 </div>
                 <h3 className="text-base font-semibold text-slate-900">Luce</h3>
-                <p className="text-[0.85rem] text-slate-600">Chatbot vocale: tour dei progetti, download CV, spiegazioni tecniche.</p>
               </div>
             </div>
-            <div className="inline-flex flex-wrap gap-2">
+            <p className="text-[0.85rem] text-slate-600 hidden md:block">
+              Chatbot vocale: tour dei progetti, download CV, spiegazioni tecniche.
+            </p>
+            <div className="inline-flex flex-wrap gap-2 hidden md:flex">
               <button
                 type="button"
                 aria-pressed={!useCustomVoice}
@@ -160,7 +162,7 @@ export default function ChatWidget({ className = '' }) {
                 showCvButton={showCvButton}
                 onDownloadCv={handleDownloadCV}
               />
-              <p className="text-center text-xs text-slate-500">
+              <p className="text-center text-xs text-slate-500 hidden md:block">
                 Suggerimenti: “Fammi un tour dei progetti prioritari”, “Posso avere il CV?”, “Mostrami come funziona Decod”.
               </p>
             </div>

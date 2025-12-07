@@ -7,7 +7,6 @@ import ProjectsPanel from './background/ProjectsPanel.jsx';
 import AssistantPanel from './background/AssistantPanel.jsx';
 import CreditsPanel from './background/CreditsPanel.jsx';
 import SpotlightOverlay from './background/SpotlightOverlay.jsx';
-import SidebarDrawer from './background/SidebarDrawer.jsx';
 
 const SPLASH_MS = 1000;
 
@@ -15,7 +14,6 @@ export default function Background() {
   const [projects] = useState(projectsData);
   const [selected, setSelected] = useState(null);
   const [activePanel, setActivePanel] = useState('home');
-  const [sidebarOpenMobile, setSidebarOpenMobile] = useState(false);
   const [floatersDisabled, setFloatersDisabled] = useState(false);
   const [shellAnimated, setShellAnimated] = useState(false);
   const [splashDone, setSplashDone] = useState(false);
@@ -75,40 +73,71 @@ export default function Background() {
 
   const disablePanelsFloaters = floatersDisabled || !splashDone;
 
+  const mobileNavButtons = [
+    {
+      key: 'home',
+      label: 'Home',
+      subtitle: 'Intro',
+      gradient: 'from-white/90 via-slate-50/90 to-slate-100/90',
+      text: 'text-slate-900',
+    },
+    {
+      key: 'projects',
+      label: 'Progetti',
+      subtitle: 'Work',
+      gradient: 'from-indigo-50/90 via-white to-indigo-100/60',
+      text: 'text-indigo-900',
+    },
+    {
+      key: 'microphone',
+      label: 'Assistant',
+      subtitle: 'Luce',
+      gradient: 'from-emerald-50/90 via-white to-emerald-100/70',
+      text: 'text-emerald-900',
+    },
+    {
+      key: 'credits',
+      label: 'Credits',
+      subtitle: 'CV',
+      gradient: 'from-amber-50/90 via-white to-amber-100/70',
+      text: 'text-amber-900',
+    },
+  ];
+
   return (
     <div ref={rootRef} className={shellClasses}>
       <SpotlightOverlay visible={!splashDone} />
+
+      <div className="md:hidden">
+        <nav
+          className="fixed inset-x-4 top-4 z-50 flex items-center justify-between gap-3 rounded-[28px] border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-3 shadow-[0_20px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl"
+        >
+          {mobileNavButtons.map((button) => {
+            const active = activePanel === button.key;
+            return (
+              <button
+                key={button.key}
+                type="button"
+                onClick={() => setActivePanel(button.key)}
+                className={`flex-1 rounded-2xl border border-white/70 bg-gradient-to-br ${button.gradient} p-2 text-left transition-all duration-200 ${active ? 'shadow-lg scale-102' : 'hover:-translate-y-0.5'}`}
+                aria-pressed={active}
+              >
+                <div className="text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
+                  {button.subtitle}
+                </div>
+                <div className={`text-sm font-semibold ${button.text}`}>{button.label}</div>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
 
       <div className="relative z-10 flex min-h-screen w-full flex-col md:flex-row">
         <div className="hidden shrink-0 md:flex md:w-20">
           <Sidebar active={activePanel} onChange={setActivePanel} />
         </div>
 
-        <div className="flex items-center justify-between border-b border-white/50 bg-white/50 px-4 py-2 backdrop-blur-md md:hidden">
-          <div className="text-sm font-semibold text-slate-800">G. Rubino</div>
-          <button
-            type="button"
-            aria-label="Apri menu"
-            onClick={() => setSidebarOpenMobile((prev) => !prev)}
-            className="rounded-xl border border-white/60 bg-white/80 p-2 shadow-sm transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-200"
-          >
-            <svg className="h-5 w-5 text-slate-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path d="M4 6h16M4 12h16M4 18h16" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
-
-        <SidebarDrawer
-          open={sidebarOpenMobile}
-          activePanel={activePanel}
-          onSelect={(panel) => {
-            setActivePanel(panel);
-            setSidebarOpenMobile(false);
-          }}
-          onClose={() => setSidebarOpenMobile(false)}
-        />
-
-        <main className="flex-1 px-4 py-6 md:px-6 lg:px-8">
+        <main className="flex-1 px-4 pb-6 pt-22 md:px-6 md:pt-6 lg:px-8">
           <div className="mx-auto w-full max-w-screen">
             {activePanel === 'home' && (
               <HomePanel

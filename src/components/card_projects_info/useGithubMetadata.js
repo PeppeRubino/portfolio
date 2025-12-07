@@ -32,6 +32,9 @@ export default function useGithubMetadata(project, githubToken) {
         const res = await fetch(apiUrl, { signal: controller.signal, headers });
         if (abort) return;
         if (!res.ok) {
+          if (res.status === 404 || res.status === 410) {
+            return;
+          }
           setRepoError(`GitHub API non OK: ${res.status}`);
           return;
         }
@@ -86,6 +89,9 @@ export default function useGithubMetadata(project, githubToken) {
         if (abort) return;
 
         if (!res.ok) {
+          if (res.status === 404 || res.status === 410) {
+            return;
+          }
           setError(`GitHub API non OK: ${res.status}`);
           return;
         }

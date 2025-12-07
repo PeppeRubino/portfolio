@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import LanguageBar from "./card_projects_info/LanguageBar.jsx";
 import useGithubMetadata from "./card_projects_info/useGithubMetadata.js";
 import { formatIsoDate } from "./card_projects_info/utils.js";
+
+function resolveDocumentUrl(path) {
+  if (!path) return null;
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/")) return path;
+  try {
+    return new URL(path, import.meta.url).href;
+  } catch {
+    return path;
+  }
+}
 
 export default function CardInfo({ project, onClose = () => {}, githubToken = null }) {
   const {
@@ -42,10 +53,22 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
     if (url) window.open(url, "_blank");
   };
 
-  return (
-    <aside className="relative flex h-full max-w-md flex-col rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+  const documentLinks = useMemo(() => {
+    if (!project.documents || !project.documents.length) return [];
+    return project.documents
+      .map((doc) => {
+        if (!doc) return null;
+        const url = doc.url ?? resolveDocumentUrl(doc.path);
+        if (!url) return null;
+        return { ...doc, url };
+      })
+      .filter(Boolean);
+  }, [project.documents]);
 
-      <div className="mb-4 h-1 w-full rounded-full bg-linear-to-r from-white/0 via-white/70 to-white/0" />
+  return (
+    <aside className="relative flex h-full max-w-md flex-col rounded-[30px] border border-white/50 bg-gradient-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+
+      <div className="mb-4 h-1 w-full rounded-full bg-gradient-to-r from-white/0 via-white/70 to-white/0" />
 
       <div className="flex flex-col gap-4">
         <div>
@@ -114,13 +137,35 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
               </div>
             </section>
           )}
+
+          {documentLinks.length > 0 && (
+            <section className="mb-4">
+              <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-[0.3em] text-slate-500">
+                Documenti
+              </h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {documentLinks.map((doc) => (
+                  <a
+                    key={doc.label || doc.path || doc.url}
+                    href={doc.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow transition hover:-translate-y-0.5 hover:border-slate-300"
+                  >
+                    {doc.label}
+                    <span className="text-[0.6rem] text-slate-400">Download</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         <div className="mt-4 flex items-center justify-end">
           <button
             type="button"
             onClick={handleOpenProject}
-            className="rounded-2xl bg-linear-to-b from-slate-900 to-slate-800 px-4 py-2 text-sm font-semibold text-white shadow-[0_20px_45px_rgba(2,6,23,0.22)] transition hover:-translate-y-0.5"
+            className="rounded-2xl bg-gradient-to-b from-slate-900 to-slate-800 px-4 py-2 text-sm font-semibold text-white shadow-[0_20px_45px_rgba(2,6,23,0.22)] transition hover:-translate-y-0.5"
           >
             Apri progetto
           </button>

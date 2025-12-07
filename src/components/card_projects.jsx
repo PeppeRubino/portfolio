@@ -91,11 +91,8 @@ export function CardLeft({
 
   return (
     <aside
-      className="relative w-full max-w-md flex flex-col p-6 rounded-2xl overflow-y-auto"
-      style={{
-        background: "linear-gradient(rgb(250, 250, 250), rgb(239, 239, 239))",
-        boxShadow: "rgba(15, 23, 42, 0.06) 0px 6px 12px",
-      }}
+      className="relative w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-gradient-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_70px_rgba(15,23,42,0.18)]"
+      style={{ maxHeight: '75vh' }}
     >
       <div className="h-full flex flex-col">
         <header className="mb-6">
@@ -103,7 +100,10 @@ export function CardLeft({
           <p className="text-sm text-gray-500 mt-1">Progetti sviluppati da me</p>
         </header>
 
-        <nav className="flex-1 overflow-auto p-2">
+        <nav
+          className="flex-1 overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent"
+          style={{ maxHeight: 'calc(75vh - 120px)' }}
+        >
           <ul className="space-y-4">
             {visibleProjects.map((p) => {
               const isSelected = selectedId === p.id;
@@ -141,32 +141,26 @@ export function CardLeft({
 
               return (
                 <li key={p.id}>
-                  <button
-                    onClick={() => handleClickProject(p)}
-                    className={
-                      `w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start ` +
-                      (isSelected
-                        ? `scale-102 shadow-2xl ring-2 ring-indigo-200`
-                        : `hover:-translate-y-0.5 hover:shadow-lg`) +
-                      (isFavorite && !isSelected
-                        ? ` ring-1 ring-amber-200/80`
-                        : ``)
-                    }
-                    style={{
-                      background: isSelected
-                        ? "linear-gradient(180deg,#ffffff,#f3f4f6)"
-                        : "linear-gradient(180deg,#fafafa,#efefef)",
-                      boxShadow: isSelected
-                        ? "0 8px 18px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
-                        : isFavorite
-                        ? "0 10px 20px rgba(251,191,36,0.25)"
-                        : "0 6px 12px rgba(15,23,42,0.06)",
-                      border:
-                        isFavorite && !isSelected
-                          ? "1px solid rgba(251,191,36,0.45)"
-                          : "1px solid transparent",
-                    }}
-                  >
+              <button
+                onClick={() => handleClickProject(p)}
+                className={
+                  `group relative w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start ${isFavorite && !isSelected ? 'hover:shadow-[0_15px_40px_rgba(251,191,36,0.25)] focus-visible:shadow-[0_15px_40px_rgba(251,191,36,0.35)]' : ''}` +
+                  (isSelected
+                    ? ` scale-102 shadow-2xl ring-2 ring-indigo-200`
+                    : ` hover:-translate-y-0.5`)
+                }
+                style={{
+                  background: isSelected
+                    ? "linear-gradient(180deg,#ffffff,#f3f4f6)"
+                    : "linear-gradient(180deg,#fafafa,#efefef)",
+                  boxShadow: isSelected
+                    ? isFavorite
+                      ? "0 8px 24px rgba(251,191,36,0.25), inset 0 1px 0 rgba(255,255,255,0.6)"
+                      : "0 8px 18px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
+                    : "0 6px 12px rgba(15,23,42,0.06)",
+                  border: isSelected ? "1px solid transparent" : "1px solid transparent",
+                }}
+              >
                     <div className="w-full flex items-center justify-between">
                       <div className="flex flex-col gap-1">
                         <div className="text-sm font-medium text-gray-800">

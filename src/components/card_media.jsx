@@ -11,13 +11,15 @@ export default function CardMedia({ project }) {
 
   return (
     <>
-      <aside className="flex flex-col rounded-2xl border border-white/60 bg-linear-to-b from-white to-slate-100 p-4 shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
-        <div className="mb-3 flex items-center justify-between">
+      <aside className="flex flex-col rounded-[30px] border border-white/60 bg-gradient-to-b from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+        <div className="mb-4 flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-gray-800">Media</h3>
-            <div className="text-xs text-gray-500">Foto e video del progetto</div>
+            <h2 className="text-2xl font-semibold text-slate-900">Media</h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Anteprime silenziose in loop e disponibile la versione completa al clic.
+            </p>
           </div>
-          <div className="text-xs text-gray-400">{media.length} elementi</div>
+          <div className="text-xs text-slate-400">{media.length} elementi</div>
         </div>
 
         <MediaGrid

@@ -137,7 +137,7 @@ export default function Background() {
           <Sidebar active={activePanel} onChange={setActivePanel} />
         </div>
 
-        <main className="flex-1 px-4 pb-6 pt-[5.5rem] md:px-6 md:pt-6 lg:px-8">
+        <main className="flex-1 px-4 pb-6 pt-22 md:px-6 md:pt-6 lg:px-8">
           <div className="mx-auto w-full max-w-screen">
             {activePanel === 'home' && (
               <HomePanel

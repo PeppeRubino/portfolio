@@ -24,15 +24,18 @@ jobs:
         run: npm run build
         env:
           VITE_GITHUB_API_KEY: ${{ secrets.VITE_GITHUB_API_KEY }}
+          VITE_GROQ_API_KEY: ${{ secrets.VITE_GROQ_API_KEY }}
 
       - name: Debug secret
         run: |
-          if [ -z "$VITE_GITHUB_API_KEY" ]; then
-            echo "❌ SECRET MISSING"
-          else
-            echo "✅ SECRET PRESENT"
-            echo "Length: ${#VITE_GITHUB_API_KEY}"
-          fi
+          for key in VITE_GITHUB_API_KEY VITE_GROQ_API_KEY; do
+            value="${!key}"
+            if [ -z "$value" ]; then
+              echo "$key missing"
+            else
+              echo "$key present (len: ${#value})"
+            fi
+          done
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

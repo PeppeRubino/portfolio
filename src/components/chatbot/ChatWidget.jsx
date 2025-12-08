@@ -127,7 +127,7 @@ export default function ChatWidget({ className = '' }) {
             <p className="text-[0.85rem] text-slate-600 hidden md:block">
               Chatbot vocale: tour dei progetti, download CV, spiegazioni tecniche.
             </p>
-            <div className="inline-flex flex-wrap gap-2 hidden md:flex">
+            <div className="flex-wrap gap-2 hidden md:flex">
               <button
                 type="button"
                 aria-pressed={!useCustomVoice}

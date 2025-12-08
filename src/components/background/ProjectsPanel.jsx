@@ -12,7 +12,7 @@ export default function ProjectsPanel({
   return (
     <section className="w-full">
       <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
-        <div className="w-full md:max-w-[420px]">
+        <div className="w-full">
           <CardLeft projects={projects} onSelect={onSelect} selectedId={selected?.id} />
         </div>
         <div className="w-full">

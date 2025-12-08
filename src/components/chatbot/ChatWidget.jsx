@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { generateAnswer } from '../../utils/llm_wrapper.jsx';
 import { analyzePrompt } from '../../utils/knowledge.js';
 import cvPdf from '../../assets/data/Giuseppe_Rubino_CV.pdf';
@@ -13,7 +13,20 @@ export default function ChatWidget({ className = '' }) {
   const [loading, setLoading] = useState(false);
   const [showCvButton, setShowCvButton] = useState(false);
   const [useCustomVoice, setUseCustomVoice] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false
+  );
   const { isSpeaking, speakText, unlockAudio } = useLuceSpeech(useCustomVoice);
+
+  useEffect(() => {
+    function handleResize() {
+      if (typeof window === 'undefined') return;
+      setIsMobile(window.matchMedia('(max-width: 767px)').matches);
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   async function handleSend(e) {
     if (e?.preventDefault) e.preventDefault();
@@ -127,28 +140,43 @@ export default function ChatWidget({ className = '' }) {
             <p className="text-[0.85rem] text-slate-600 hidden md:block">
               Chatbot vocale: tour dei progetti, download CV, spiegazioni tecniche.
             </p>
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-              <button
-                type="button"
-                aria-pressed={!useCustomVoice}
-                onClick={() => setUseCustomVoice(false)}
-                className={`rounded-full px-3 py-1 text-xs font-semibold border transition ${
-                  !useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
-                }`}
-              >
-                Voce del tuo sistema
-              </button>
-              <button
-                type="button"
-                aria-pressed={useCustomVoice}
-                onClick={() => setUseCustomVoice(true)}
-                className={`rounded-full px-3 py-1 text-xs font-semibold border transition ${
-                  useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
-                }`}
-              >
-                Voce premium
-              </button>
-            </div>
+            {isMobile ? (
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  aria-pressed={useCustomVoice}
+                  onClick={() => setUseCustomVoice((prev) => !prev)}
+                  className={`rounded-full px-4 py-1 text-xs font-semibold border transition ${
+                    useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
+                  }`}
+                >
+                  {useCustomVoice ? 'Voce premium' : 'Voce del tuo sistema'}
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                <button
+                  type="button"
+                  aria-pressed={!useCustomVoice}
+                  onClick={() => setUseCustomVoice(false)}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold border transition ${
+                    !useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
+                  }`}
+                >
+                  Voce del tuo sistema
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={useCustomVoice}
+                  onClick={() => setUseCustomVoice(true)}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold border transition ${
+                    useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
+                  }`}
+                >
+                  Voce premium
+                </button>
+              </div>
+            )}
           </div>
           <div className="flex flex-col items-center justify-center gap-8 md:gap-10">
             <VoiceOrb isSpeaking={isSpeaking} />

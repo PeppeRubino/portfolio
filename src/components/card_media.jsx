@@ -16,7 +16,7 @@ export default function CardMedia({ project }) {
           <div>
             <h2 className="text-2xl font-semibold text-slate-900">Media</h2>
             <p className="text-sm text-slate-500 mt-1">
-              Anteprime silenziose in loop e disponibile la versione completa al clic.
+              Anteprima. Disponibile la versione completa al clic.
             </p>
           </div>
           <div className="text-xs text-slate-400">{media.length} elementi</div>

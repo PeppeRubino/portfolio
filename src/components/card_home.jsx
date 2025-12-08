@@ -72,8 +72,10 @@ export function CardHome({
     "Full-stack product delivery",
     "Vision-guided desktop apps",
   ],
-  bio = "Full-stack engineer con background in Scienze e Tecniche Psicologiche: progetto web app end-to-end, modelli neurali e sistemi AI generativi. Mi piace trasformare i brief in prototipi e MVP rapidi, curando UX, API e deploy.",
-  onSelectFocus = () => {}
+  bio = "Dottore in Scienze e Tecniche Psicologiche (110 e lode) e sviluppatore autodidatta: costruisco web app end-to-end, modelli neurali e sistemi AI generativi. Porto i brief dall'idea a prototipi chiari e MVP dimostrabili, curando UX, API e deploy.",
+  onSelectFocus = () => {},
+  photoVariant = "rounded",
+  photoCaption = null,
 }) {
   const wrapperRef = useRef(null);
 
@@ -94,27 +96,45 @@ export function CardHome({
           className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
       >
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8 select-none">
-          <div
-            className="w-32 h-32 md:w-44 md:h-44 rounded-3xl overflow-hidden shadow-[0_25px_60px_rgba(15,23,42,0.2)] ring-4 ring-white/40"
-            style={{ flexShrink: 0 }}
-          >
-            <img
-              src={me}
-              alt="Foto profilo"
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
+          <div className="flex flex-col items-center gap-3 pt-2 md:pt-0" style={{ flexShrink: 0 }}>
+            <div
+              className={`relative w-36 h-36 md:w-48 md:h-48 bg-linear-to-br from-white/92 via-slate-50/85 to-slate-100/85 p-1 shadow-[0_22px_60px_rgba(15,23,42,0.18)] ${
+                photoVariant === "circle" ? "rounded-full" : "rounded-[38px]"
+              }`}
+            >
+              <div
+                className={`relative h-full w-full overflow-hidden ${
+                  photoVariant === "circle" ? "rounded-full" : "rounded-[32px]"
+                }`}
+              >
+                <img
+                  src={me}
+                  alt="Foto profilo portfolio"
+                  className="w-full h-full object-cover object-top brightness-105 contrast-105 saturate-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent" aria-hidden />
+              </div>
+            </div>
+            {photoCaption ? (
+              <span className="rounded-full border border-white/70 bg-white/90 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-slate-500 shadow-[0_10px_30px_rgba(15,23,42,0.12)]">
+                {photoCaption}
+              </span>
+            ) : null}
           </div>
 
           <div className="flex-1 flex flex-col gap-5 select-none">
               <div className="flex flex-col gap-3">
           <div className="inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-gray-500">
-            Full-stack / AI engineering
+            Dottore in Scienze e Tecniche Psicologiche
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
           </div>
-              <div className="flex flex-col md:flex-row md:items-end md:gap-3">
-                <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">{name}</h1>
-                <span className="text-sm font-medium text-slate-500">Autodidatta · Nato il 21·11·1995</span>
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-col md:flex-row md:items-end md:gap-3">
+                  <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">{name}</h1>
+                  <span className="text-sm font-medium text-slate-500">Nato il 21·11·1995</span>
+                </div>
+                <span className="text-sm font-medium text-slate-500">Full-stack & AI engineer (autodidatta)</span>
               </div>
               <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                 {bio}

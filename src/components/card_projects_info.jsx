@@ -140,7 +140,7 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
 
           {documentLinks.length > 0 && (
             <section className="mb-4">
-              <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-[0.3em] text-slate-700">
+              <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-[0.3em] text-slate-500">
                 Documenti
               </h3>
               <div className="mt-3 flex flex-wrap gap-2">

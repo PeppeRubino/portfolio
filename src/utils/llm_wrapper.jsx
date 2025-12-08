@@ -195,6 +195,10 @@ Istruzioni: suggerisci possibili follow-up (es.: "Vuoi informazioni su uno di qu
   messagesToSend.push({ role: "user", content: userPrompt });
 
   // 8) chiamata API
+  if (!GROQ_API_KEY) {
+    console.warn("[generateAnswer] VITE_GROQ_API_KEY non disponibile: prevista solo in deploy.");
+    return "Sono in modalità demo offline, non posso contattare Groq al momento.";
+  }
   try {
     const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",

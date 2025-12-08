@@ -47,7 +47,7 @@ export default function ChatWidget({ className = '' }) {
     const analysis = analyzePrompt(text);
 
     if (analysis.stopModel && analysis.reason === 'cv_request') {
-      const message = 'Posso fornirti il mio curriculum. Premi il pulsante per scaricarlo o visualizzarlo.';
+      const message = 'Posso fornirti il suo curriculum. Premi il pulsante per scaricarlo o visualizzarlo.';
       setShowCvButton(true);
       setHistory((prev) => {
         const copy = [...prev];

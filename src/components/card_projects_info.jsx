@@ -66,9 +66,9 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
   }, [project.documents]);
 
   return (
-    <aside className="relative flex h-full max-w-md flex-col rounded-[30px] border border-white/50 bg-gradient-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+    <aside className="relative flex h-full max-w-md flex-col rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
 
-      <div className="mb-4 h-1 w-full rounded-full bg-gradient-to-r from-white/0 via-white/70 to-white/0" />
+      <div className="mb-4 h-1 w-full rounded-full bg-linear-to-r from-white/0 via-white/70 to-white/0" />
 
       <div className="flex flex-col gap-4">
         <div>
@@ -161,12 +161,12 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
           )}
         </div>
 
-        <div className="mt-4 flex items-center justify-end">
-          <button
-            type="button"
-            onClick={handleOpenProject}
-            className="rounded-2xl bg-gradient-to-b from-slate-900 to-slate-800 px-4 py-2 text-sm font-semibold text-white shadow-[0_20px_45px_rgba(2,6,23,0.22)] transition hover:-translate-y-0.5"
-          >
+            <div className="mt-4 flex items-center justify-end">
+              <button
+                type="button"
+                onClick={handleOpenProject}
+                className="rounded-2xl bg-linear-to-b from-slate-900 to-slate-800 px-4 py-2 text-sm font-semibold text-white shadow-[0_20px_45px_rgba(2,6,23,0.22)] transition hover:-translate-y-0.5"
+              >
             Apri progetto
           </button>
         </div>

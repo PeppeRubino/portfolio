@@ -52,7 +52,7 @@ export default function MediaGrid({
         return (
           <article
             key={item.id}
-            className="rounded-3xl border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.12)]"
+            className="rounded-3xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.12)]"
           >
             <button
               type="button"
@@ -60,7 +60,7 @@ export default function MediaGrid({
                 if (item.type === 'image' && item.src) onPreload(item.src);
                 onSelect(item);
               }}
-              className="flex w-full flex-col gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200"
+              className="flex w-full flex-col gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-200 cursor-pointer"
               title={item.alt ?? ""}
               aria-label={item.alt ?? (item.type === "video" ? "Video" : "Immagine")}
               onMouseEnter={() => {

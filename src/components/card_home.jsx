@@ -91,7 +91,7 @@ export function CardHome({
       {/* NOTA: floaters rimossi — qui resta solo la card principale */}
 
       <aside
-          className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
+          className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
       >
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8 select-none">
           <div
@@ -146,7 +146,7 @@ export function CardHome({
                   key={block.title}
                   type="button"
                   onClick={() => onSelectFocus(block.key)}
-                  className="flex h-full flex-col rounded-[22px] border border-white/60 bg-gradient-to-br from-indigo-50/90 via-white to-white/95 p-4 text-left shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-1"
+                  className="flex h-full flex-col rounded-[22px] border border-white/60 bg-linear-to-br from-indigo-50/90 via-white to-white/95 p-4 text-left shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-1 cursor-pointer"
                 >
                   <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
                     {block.chip}
@@ -162,7 +162,7 @@ export function CardHome({
                 href="https://github.com/PeppeRubino"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5 cursor-pointer"
               >
                 GitHub
               </a>
@@ -170,13 +170,13 @@ export function CardHome({
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5 cursor-pointer"
               >
                 LinkedIn
               </a>
               <a
                 href="mailto:peppe.rubino95@gmail.com"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] transition duration-150 hover:-translate-y-0.5 cursor-pointer"
               >
                 Contattami
               </a>

@@ -91,7 +91,7 @@ export function CardLeft({
 
   return (
     <aside
-      className="relative w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-gradient-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_70px_rgba(15,23,42,0.18)]"
+      className="relative w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_70px_rgba(15,23,42,0.18)]"
       style={{ maxHeight: '75vh' }}
     >
       <div className="h-full flex flex-col">
@@ -144,7 +144,7 @@ export function CardLeft({
               <button
                 onClick={() => handleClickProject(p)}
                 className={
-                  `group relative w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start ${isFavorite && !isSelected ? 'hover:shadow-[0_15px_40px_rgba(251,191,36,0.25)] focus-visible:shadow-[0_15px_40px_rgba(251,191,36,0.35)]' : ''}` +
+                  `group relative w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start ${isFavorite && !isSelected ? 'hover:shadow-[0_15px_40px_rgba(251,191,36,0.25)] focus-visible:shadow-[0_15px_40px_rgba(251,191,36,0.35)]' : ''} cursor-pointer` +
                   (isSelected
                     ? ` scale-102 shadow-2xl ring-2 ring-indigo-200`
                     : ` hover:-translate-y-0.5`)

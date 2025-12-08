@@ -65,7 +65,7 @@ export default function Background() {
 
   const shellClasses = [
     'relative min-h-screen w-full overflow-hidden',
-    'bg-gradient-to-b from-[#e6e8ec]/80 via-[#f3f4f6]/80 to-[#d7d9de]/70',
+    'bg-linear-to-b from-[#e6e8ec]/80 via-[#f3f4f6]/80 to-[#d7d9de]/70',
     'backdrop-blur-xl shadow-[0_35px_120px_rgba(15,23,42,0.22)]',
     'transition-all duration-700 ease-out',
     shellAnimated ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-[0.99] blur-sm',
@@ -85,8 +85,8 @@ export default function Background() {
       key: 'projects',
       label: 'Progetti',
       subtitle: 'Work',
-      gradient: 'from-indigo-50/90 via-white to-indigo-100/60',
-      text: 'text-indigo-900',
+      gradient: 'from-amber-50/90 via-white to-amber-100/80',
+      text: 'text-amber-900',
     },
     {
       key: 'microphone',
@@ -99,8 +99,8 @@ export default function Background() {
       key: 'credits',
       label: 'Credits',
       subtitle: 'CV',
-      gradient: 'from-amber-50/90 via-white to-amber-100/70',
-      text: 'text-amber-900',
+      gradient: 'from-indigo-50/90 via-white to-indigo-100/60',
+      text: 'text-indigo-900',
     },
   ];
 
@@ -110,7 +110,7 @@ export default function Background() {
 
         <div className="md:hidden">
           <nav
-            className="fixed inset-x-4 top-4 z-50 flex items-center justify-between gap-3 rounded-[28px] border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-3 shadow-[0_20px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl"
+            className="fixed inset-x-4 top-4 z-50 flex items-center justify-between gap-3 rounded-[28px] border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-3 shadow-[0_20px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl"
           >
             {mobileNavButtons.map((button) => {
               const active = activePanel === button.key;
@@ -119,7 +119,7 @@ export default function Background() {
                   key={button.key}
                   type="button"
                   onClick={() => setActivePanel(button.key)}
-                  className={`flex-1 rounded-2xl border border-white/70 bg-gradient-to-br ${button.gradient} p-2 text-left transition-all duration-200 ${active ? 'shadow-lg scale-102' : 'hover:-translate-y-0.5'}`}
+                  className={`flex-1 rounded-2xl border border-white/70 bg-linear-to-br ${button.gradient} p-2 text-left transition-all duration-200 ${active ? 'shadow-lg scale-102' : 'hover:-translate-y-0.5'}`}
                   aria-pressed={active}
                 >
                   <div className="text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
@@ -137,7 +137,7 @@ export default function Background() {
           <Sidebar active={activePanel} onChange={setActivePanel} />
         </div>
 
-        <main className="flex-1 px-4 pb-6 pt-22 md:px-6 md:pt-6 lg:px-8">
+        <main className="flex-1 px-4 pb-6 pt-[5.5rem] md:px-6 md:pt-6 lg:px-8">
           <div className="mx-auto w-full max-w-screen">
             {activePanel === 'home' && (
               <HomePanel

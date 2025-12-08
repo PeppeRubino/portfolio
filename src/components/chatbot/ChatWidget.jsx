@@ -110,7 +110,7 @@ export default function ChatWidget({ className = '' }) {
 
   return (
     <section className={`my-16 flex w-full items-center justify-center px-4 ${className}`}>
-      <div className="relative z-20 w-full max-w-2xl rounded-[34px] border border-white/70 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_35px_100px_rgba(15,23,42,0.25)]">
+      <div className="relative z-20 w-full max-w-2xl rounded-[34px] border border-white/70 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_35px_100px_rgba(15,23,42,0.25)]">
         <div className="absolute inset-x-6 top-6 h-12 rounded-2xl bg-white/60 blur-2xl" aria-hidden />
         <div className="relative flex flex-col gap-6">
           <div className="flex flex-col gap-5 rounded-2xl border border-white/70 bg-white/85 px-4 py-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">

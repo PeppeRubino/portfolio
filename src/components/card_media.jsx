@@ -11,7 +11,7 @@ export default function CardMedia({ project }) {
 
   return (
     <>
-      <aside className="flex flex-col rounded-[30px] border border-white/60 bg-gradient-to-b from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+      <aside className="flex flex-col rounded-[30px] border border-white/60 bg-linear-to-b from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
         <div className="mb-4 flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-slate-900">Media</h2>

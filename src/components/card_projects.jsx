@@ -91,7 +91,7 @@ export function CardLeft({
 
   return (
     <aside
-      className="relative w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_70px_rgba(15,23,42,0.18)]"
+      className="relative mt-8 md:mt-0 w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_70px_rgba(15,23,42,0.18)]"
       style={{ maxHeight: '75vh' }}
     >
       <div className="h-full flex flex-col">

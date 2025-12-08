@@ -48,7 +48,7 @@ const SECTIONS = [
 
 export default function CardCredits() {
   return (
-    <section className="w-full">
+    <section className="w-full mt-8 md:mt-0">
       <div className="mx-auto flex h-[75vh] w-full max-w-4xl flex-col gap-6 overflow-hidden rounded-4xl border border-white/60 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
         <header className="text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-500">Professional Credits · 21·11·1995</p>

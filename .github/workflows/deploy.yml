@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write   # NECESSARIO per gh-pages
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +24,16 @@ jobs:
         run: npm run build
         env:
           VITE_GITHUB_API_KEY: ${{ secrets.VITE_GITHUB_API_KEY }}
+
+      # ✅ DEBUG VERITÀ ASSOLUTA
+      - name: Debug secret
+        run: |
+          if [ -z "$VITE_GITHUB_API_KEY" ]; then
+            echo "❌ SECRET MISSING"
+          else
+            echo "✅ SECRET PRESENT"
+            echo "Length: ${#VITE_GITHUB_API_KEY}"
+          fi
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

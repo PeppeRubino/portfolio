@@ -100,7 +100,7 @@ export default function ChatWidget({ className = '' }) {
         return copy;
       });
       setTimeout(() => {
-        speakText(fallback).catch((ttsErr) => console.warn('TTS fallback error:', ttsErr));
+        speakText(fallback, { forceSystem: true }).catch((ttsErr) => console.warn('TTS fallback error:', ttsErr));
       }, 60);
     } finally {
       setLoading(false);

@@ -20,3 +20,8 @@ npm run preview
 ```
 
 Il deploy è configurato con `gh-pages` (script `deploy`). Il progetto utilizza React 19, Tailwind 4 e Vite 7.
+
+### Variabili d'ambiente
+
+- In produzione la chiave `VITE_GROQ_API_KEY` viene fornita come secret GitHub e iniettata dalla workflow.
+- Per lo sviluppo locale copia `.env.local.example` in `.env.local` (ignorato da git) e imposta l? la tua chiave Groq, cos? Luce non resta in modalit? demo offline.

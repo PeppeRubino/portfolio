@@ -36,7 +36,10 @@ export default function useLuceSpeech(useCustomVoice = false) {
     }
   }, []);
 
-  const speakText = useCallback(async (text = '') => {
+  const speakText = useCallback(async (text = '', options = {}) => {
+    const { forceSystem = false } = options || {};
+    const preferCustomVoice = !forceSystem && useCustomVoice;
+
     if (typeof window === 'undefined' || !window.speechSynthesis) {
       console.warn('SpeechSynthesis non disponibile');
       return;
@@ -70,14 +73,29 @@ export default function useLuceSpeech(useCustomVoice = false) {
     }
 
     const utter = new SpeechSynthesisUtterance(text);
-    const basePreferred = ['Lucia', 'Elisa', 'Maria', 'Elsa'];
+    const appleFemaleVoices = ['silvia', 'alice', 'chiara'];
+    const basePreferred = ['microsoft elsa', ...appleFemaleVoices];
     const customPreferred = ['Giorgia', 'Paola', 'Alice', 'Isabella'];
     const italianVoices = voices.filter(
       (voice) => voice.lang && voice.lang.toLowerCase().startsWith('it'),
     );
+    const matchVoice = (voiceList = []) =>
+      voiceList
+        .map((name) =>
+          voices.find(
+            (voice) =>
+              voice.name &&
+              voice.lang &&
+              voice.lang.toLowerCase().startsWith('it') &&
+              voice.name.toLowerCase().includes(name),
+          ),
+        )
+        .filter(Boolean)[0];
+    const systemVoicePriority = ['microsoft elsa', ...appleFemaleVoices];
+    const matchSystemVoice = () => matchVoice(systemVoicePriority);
 
     let chosen = null;
-    if (useCustomVoice) {
+    if (preferCustomVoice) {
       chosen =
         voices.find(
           (voice) =>
@@ -89,19 +107,8 @@ export default function useLuceSpeech(useCustomVoice = false) {
         voices[0] ||
         null;
     } else {
-      chosen =
-        voices.find(
-          (voice) =>
-            basePreferred.some((name) => voice.name.includes(name)) &&
-            voice.lang &&
-            voice.lang.toLowerCase().startsWith('it'),
-        ) ||
-        italianVoices.find((voice) =>
-          basePreferred.some((name) => voice.name.includes(name)),
-        ) ||
-        italianVoices[0] ||
-        voices.find((voice) => voice.default) ||
-        null;
+      // default/system voice: prefer italian female voices exposed by the browser
+      chosen = matchSystemVoice() || null;
     }
 
     if (chosen) utter.voice = chosen;

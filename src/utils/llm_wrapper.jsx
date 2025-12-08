@@ -1,5 +1,7 @@
 // utils/llm_wrapper.jsx
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+const RAW_GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+const GROQ_API_KEY =
+  typeof RAW_GROQ_API_KEY === "string" ? RAW_GROQ_API_KEY.trim() : "";
 
 /**
  * System prompt principale - in italiano.
@@ -195,10 +197,6 @@ Istruzioni: suggerisci possibili follow-up (es.: "Vuoi informazioni su uno di qu
   messagesToSend.push({ role: "user", content: userPrompt });
 
   // 8) chiamata API
-  if (!GROQ_API_KEY) {
-    console.warn("[generateAnswer] VITE_GROQ_API_KEY non disponibile: prevista solo in deploy.");
-    return "Sono in modalità demo offline, non posso contattare Groq al momento.";
-  }
   try {
     const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",

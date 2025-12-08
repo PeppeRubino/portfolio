@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function VoiceOrb({ isSpeaking = false }) {
   return (
-    <div className="relative mt-2 flex w-full flex-col items-center gap-6">
+    <div className="relative mt-8 sm:mt-2 flex w-full flex-col items-center gap-8 sm:gap-6">
       <div
         className={`relative mb-6 rounded-full bg-white p-6 shadow-[0_25px_60px_rgba(15,23,42,0.12)] transition-transform duration-300 ${
           isSpeaking ? 'scale-110' : ''

@@ -7,7 +7,6 @@ import ProjectsPanel from './background/ProjectsPanel.jsx';
 import AssistantPanel from './background/AssistantPanel.jsx';
 import CreditsPanel from './background/CreditsPanel.jsx';
 import SpotlightOverlay from './background/SpotlightOverlay.jsx';
-import logoIcon from '../assets/media/icona.png';
 
 const SPLASH_MS = 1000;
 
@@ -111,31 +110,25 @@ export default function Background() {
 
         <div className="md:hidden">
           <nav
-            className="fixed inset-x-4 top-4 z-50 flex items-center gap-3 rounded-[28px] border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-3 shadow-[0_20px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl"
+            className="fixed inset-x-4 top-4 z-50 flex items-center justify-between gap-3 rounded-[28px] border border-white/60 bg-gradient-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-3 shadow-[0_20px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl"
           >
-            <div className="flex items-center gap-3 rounded-2xl bg-white/90 px-3 py-1 shadow-inner">
-              <img src={logoIcon} alt="Icona portfolio" className="h-8 w-8 rounded-full object-cover" />
-              <span className="text-sm font-semibold text-slate-900">G. Rubino</span>
-            </div>
-            <div className="flex-1 grid grid-cols-3 gap-3">
-              {mobileNavButtons.map((button) => {
-                const active = activePanel === button.key;
-                return (
-                  <button
-                    key={button.key}
-                    type="button"
-                    onClick={() => setActivePanel(button.key)}
-                    className={`flex-1 rounded-2xl border border-white/70 bg-gradient-to-br ${button.gradient} p-2 text-left transition-all duration-200 ${active ? 'shadow-lg scale-102' : 'hover:-translate-y-0.5'}`}
-                    aria-pressed={active}
-                  >
-                    <div className="text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
-                      {button.subtitle}
-                    </div>
-                    <div className={`text-sm font-semibold ${button.text}`}>{button.label}</div>
-                  </button>
-                );
-              })}
-            </div>
+            {mobileNavButtons.map((button) => {
+              const active = activePanel === button.key;
+              return (
+                <button
+                  key={button.key}
+                  type="button"
+                  onClick={() => setActivePanel(button.key)}
+                  className={`flex-1 rounded-2xl border border-white/70 bg-gradient-to-br ${button.gradient} p-2 text-left transition-all duration-200 ${active ? 'shadow-lg scale-102' : 'hover:-translate-y-0.5'}`}
+                  aria-pressed={active}
+                >
+                  <div className="text-[0.55rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
+                    {button.subtitle}
+                  </div>
+                  <div className={`text-sm font-semibold ${button.text}`}>{button.label}</div>
+                </button>
+              );
+            })}
           </nav>
         </div>
 

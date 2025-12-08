@@ -106,7 +106,7 @@ export default function useLuceSpeech(useCustomVoice = false) {
 
     if (chosen) utter.voice = chosen;
     utter.lang = 'it-IT';
-    utter.rate = 0.95;
+    utter.rate = 1.15;
 
     const SAFETY_TIMEOUT = 15000;
 

@@ -1,6 +1,7 @@
 // utils/knowledge.js
 import projects from "../assets/data/projects.json"; // adatta il path se necessario
 import about from "../assets/data/about.json";
+import { detectDocPreferenceFromPrompt, matchProjectByText } from "./project_documents.js";
 
 /**
  * Funzioni di utilità
@@ -61,13 +62,27 @@ export function analyzePrompt(prompt) {
   }
 
   // 2) cerca project per id, name, subtitle
-  const project = projects.find(p => {
-    const name = (p.name || "").toLowerCase();
-    const id = (p.id || "").toLowerCase();
-    const subtitle = (p.subtitle || "").toLowerCase();
-    return (name && lower.includes(name)) || (id && lower.includes(id)) || (subtitle && lower.includes(subtitle));
-  });
+  let project = matchProjectByText(lower);
+  if (!project) {
+    project = projects.find(p => {
+      const name = (p.name || "").toLowerCase();
+      const id = (p.id || "").toLowerCase();
+      const subtitle = (p.subtitle || "").toLowerCase();
+      return (name && lower.includes(name)) || (id && lower.includes(id)) || (subtitle && lower.includes(subtitle));
+    });
+  }
   if (project) {
+    const docPreference = detectDocPreferenceFromPrompt(lower);
+    if (docPreference.length) {
+      return {
+        stopModel: true,
+        reason: "project_doc_confirm",
+        data: {
+          project,
+          docPreference
+        }
+      };
+    }
     return { stopModel: false, type: "project", data: project };
   }
 

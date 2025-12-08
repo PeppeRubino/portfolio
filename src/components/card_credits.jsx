@@ -5,7 +5,7 @@ const SECTIONS = [
   {
     title: "Profilo",
     items: [
-      "Giuseppe Rubino – Full-stack & AI Engineer autodidatta (laurea in Scienze e Tecniche Psicologiche, 110 e lode).",
+      "Giuseppe Rubino – Full-stack & AI Engineer autodidatta (laurea in Scienze e Tecniche Psicologiche, con lode).",
       "Costruisco prodotti end-to-end: UX, backend API, modelli neurali, automazioni e deploy.",
       "Il sito e GitHub documentano i progetti chiave (Decod, Pixel-dèi, BrocaMetrics, automazioni AI) con codice e demo consultabili."
     ]
@@ -31,16 +31,16 @@ const SECTIONS = [
   {
     title: "Riferimenti CV",
     items: [
-      "Formazione: L-24 Scienze e Tecniche Psicologiche (UNIME), background in ricerca cognitiva e divulgazione.",
-      "Competenze soft: leadership di progetto, comunicazione tecnica-clienti, gestione timeline MVP e cicli di iterazione rapida.",
-      "Il curriculum dettagliato è disponibile in PDF e include timeline, responsabilità e risultati misurabili per ciascun progetto."
+      "Formazione: L-24 Scienze e Tecniche Psicologiche con lode (UNIME)",
+      "Competenze soft: leadership di progetto, ottima comunicazione, gestione timeline MVP e cicli di iterazione rapida.",
+      "Il curriculum dettagliato è disponibile in PDF."
     ]
   },
   {
     title: "Special Thanks",
     items: [
       "Open-source & scientific community",
-      "OpenAI, Groq e i team di ricerca che rendono disponibili modelli e API",
+      "OpenAI, Groq, Llama e i team di ricerca che rendono disponibili modelli e API",
       "Clienti, mentor e colleghi che hanno contribuito alla validazione dei prodotti"
     ]
   }
@@ -72,7 +72,7 @@ export default function CardCredits() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/60 pt-4 text-sm text-slate-600">
-          <span>© {new Date().getFullYear()} Giuseppe Rubino – Portfolio & GitHub</span>
+          <span>© {new Date().getFullYear()} Giuseppe Rubino – Portfolio</span>
           <a
             href="https://github.com/PeppeRubino"
             target="_blank"

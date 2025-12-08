@@ -1,3 +1,5 @@
+import { buildDocumentMessages } from "./project_documents.js";
+
 // utils/llm_wrapper.jsx
 const RAW_GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
 const GROQ_API_KEY =
@@ -119,6 +121,10 @@ Linguaggi: ${langs}
 
 Istruzioni: se la domanda richiede dettagli non presenti qui, dillo e chiedi cosa l'utente vuole sapere esattamente (es.: "Vuoi sapere le tecnologie usate o lo scopo del progetto?").`
     });
+    if (Array.isArray(context.docPreference) && context.docPreference.length) {
+      const docMessages = buildDocumentMessages(p.id, p.name, context.docPreference);
+      if (docMessages.length) messagesToSend.push(...docMessages);
+    }
   }
 
   // 5) context: about (formatta i campi dell'oggetto in testo leggibile)

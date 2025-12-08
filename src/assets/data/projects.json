@@ -146,7 +146,7 @@
     },
     {
       "id": "proj-6",
-      "name": "Decod v2 (Trascrizione e diarizzazione)",
+      "name": "Decod v2",
       "subtitle": "Suite desktop AI per trascrizione, diarizzazione e gestione licenze",
       "description": "Pipeline proprietaria che ingegnerizza Faster-Whisper, diarizzazione Resemblyzer e riconoscimento facciale (facenet-pytorch) per generare DOCX accurati, con GUI Tkinter, licenze Firebase/Stripe e packaging Nuitka. Include VAD Silero con cache su disco, matching speaker/facce, correzione ripetizioni, esportazione DOCX e gestione pagamenti integrata.",
       "favorite": true,

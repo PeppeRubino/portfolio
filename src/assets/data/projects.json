@@ -5,7 +5,10 @@
     "description": "Ho costruito una pipeline Python che importa le estrazioni storiche, normalizza le ruote e crea feature statistiche. I modelli risultanti verificano se il processo segue una distribuzione casuale, producendo report comparativi e grafici per ogni draw.",
     "favorite": false,
     "modules": [
-      "Python"
+      "NumPy",
+      "Pandas",
+      "Matplotlib",
+      "scikit-learn"
     ],
     "repository": "https://api.github.com/repos/PeppeRubino/llm-previsione-estrazioni",
     "category": "Rete Neurale",
@@ -40,10 +43,7 @@
     "name": "BrocaMetrics",
     "description": "Ho mappato le aree di Brodmann in JSON, modellato il mesh del cervello e integrato Three.js per rotazioni e zoom controllati. L'intero flusso va dal parsing dei dati anatomici al rendering 3D ottimizzato per browser desktop e mobile.",
     "modules": [
-      "html",
-      "css",
       "Tailwind",
-      "js",
       "Three.js"
     ],
     "repository": "https://api.github.com/repos/PeppeRubino/BrocaMetrics",
@@ -79,10 +79,8 @@
     "name": "CogniLine",
     "description": "Ho raccolto biografie e fonti video, normalizzando gli eventi in una timeline unica. La webapp React genera le card on-demand, aggancia la YouTube API per i contributi multimediali e mantiene filtri dinamici per percorsi tematici.",
     "modules": [
-      "html",
       "Tailwind",
       "React",
-      "js",
       "YouTube API"
     ],
     "repository": "https://api.github.com/repos/PeppeRubino/CogniLine",
@@ -118,8 +116,7 @@
     "name": "Automazioni PC",
     "description": "Analizzo il flusso ripetitivo richiesto, catturo le aree sensibili con SikuliX e scripting Python e poi costruisco macro robuste con controlli di stato. Ogni automazione produce log e fallback manuali per poter riprendere il task in sicurezza.",
     "modules": [
-      "Python",
-      "sikuliX"
+      "SikuliX"
     ],
     "repository": "",
     "category": "Automazione",
@@ -148,10 +145,8 @@
     "name": "ClassMetrics",
     "description": "Parto dall'import dei CSV scolastici, ripulisco e categorizzo i dati e genero dashboard React con Chart.js. Il flusso guida l'insegnante dal caricamento alla lettura degli insight, proponendo suggerimenti basati sulle metriche calcolate.",
     "modules": [
-      "html",
       "Tailwind",
       "React",
-      "js",
       "Chart.js"
     ],
     "repository": "https://api.github.com/repos/PeppeRubino/ClassMetrics",
@@ -188,7 +183,6 @@
     "description": "Il desktop tool gestisce ingest audio/video, normalizzazione ffmpeg, VAD Silero e Whisper con cache locale; i segmenti passano poi per diarizzazione e correzione prima dell'export DOCX. In parallelo gestisco licenze Stripe/Firebase, packaging Nuitka e onboarding utente via GUI Tkinter.",
     "favorite": true,
     "modules": [
-      "Python",
       "Tkinter GUI",
       "Faster-Whisper",
       "Silero VAD",
@@ -251,7 +245,6 @@
     "description": "Genero mondi procedurali, popolo gli agenti nei buffer NumPy e lascio che Simulation coordini world e pixel layer. Ogni run emette metriche CSV, visualizzazioni DearPyGui e log headless per analizzare i pattern evolutivi.",
     "favorite": true,
     "modules": [
-      "Python",
       "Pygame",
       "NumPy",
       "DearPyGui",
@@ -293,7 +286,8 @@
     "description": "Luce orchestra Groq Llama per la risposta, SpeechSynthesis per la voce e un knowledge base locale per contestualizzare le risposte. Il widget sincronizza stato chat, suggerimenti rapidi e preferenze audio per guidare l'utente nel portfolio.",
     "favorite": true,
     "modules": [
-      "React + Vite",
+      "React",
+      "Vite",
       "Tailwind CSS",
       "Groq Llama 3.1 Instant API",
       "Browser Fetch / REST",

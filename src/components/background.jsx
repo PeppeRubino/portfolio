@@ -64,7 +64,7 @@ export default function Background() {
   };
 
   const shellClasses = [
-    'relative min-h-screen w-full overflow-hidden',
+    'relative min-h-screen w-full overflow-visible',
     'bg-linear-to-b from-[#e6e8ec]/80 via-[#f3f4f6]/80 to-[#d7d9de]/70',
     'backdrop-blur-xl shadow-[0_35px_120px_rgba(15,23,42,0.22)]',
     'transition-all duration-700 ease-out',

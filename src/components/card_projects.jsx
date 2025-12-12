@@ -1,6 +1,29 @@
 // src/components/card_projects.jsx
 import React, { useEffect, useState } from "react";
 import projectsData from "../assets/data/projects.json"; // import DEFAULT dal JSON
+import tagDefinitions from "../assets/data/project_tags.json";
+
+const TAG_ALIAS_LOOKUP = Object.entries(tagDefinitions).reduce(
+  (acc, [key, def]) => {
+    if (Array.isArray(def.aliases)) {
+      def.aliases.forEach((alias) => {
+        acc[alias] = key;
+      });
+    }
+    return acc;
+  },
+  {}
+);
+
+const TAG_ICON_COMPONENTS = {
+  star: StarIcon,
+  tag: TagIcon,
+};
+
+const TAG_ICON_SIZE = {
+  star: "w-3.5 h-3.5",
+  tag: "w-3 h-3",
+};
 
 /**
  * CardLeft
@@ -109,33 +132,44 @@ export function CardLeft({
               const isSelected = selectedId === p.id;
               const isFavorite = Boolean(p.favorite);
               const tags = [];
+              const tagKeys = Array.isArray(p.tags) ? [...p.tags] : [];
 
-              if (isFavorite) {
-                tags.push({
-                  key: "favorite",
-                  label: "Prioritario",
-                  icon: <StarIcon className="w-3.5 h-3.5 text-amber-500" />,
-                  className: "text-amber-700 bg-amber-50/90",
+              if (tagKeys.length === 0) {
+                const catList =
+                  Array.isArray(p.categories) && p.categories.length
+                    ? p.categories
+                    : p.category
+                    ? [p.category]
+                    : [];
+
+                catList.forEach((cat) => {
+                  const aliasKey = TAG_ALIAS_LOOKUP[cat];
+                  if (aliasKey && !tagKeys.includes(aliasKey)) {
+                    tagKeys.push(aliasKey);
+                  }
                 });
               }
 
-              const catList =
-                Array.isArray(p.categories) && p.categories.length
-                  ? p.categories
-                  : p.category
-                  ? [p.category]
-                  : [];
+              tagKeys.forEach((tagKey, idx) => {
+                const definition = tagDefinitions[tagKey];
+                if (!definition) return;
+                const IconComponent =
+                  TAG_ICON_COMPONENTS[definition.icon] || TagIcon;
+                const sizeClass = TAG_ICON_SIZE[definition.icon] || "w-3 h-3";
 
-              catList.forEach((cat, idx) => {
-                const badge = getCategoryBadge(cat);
-                if (!badge) return;
                 tags.push({
-                  key: `category-${idx}`,
-                  label: badge.label,
+                  key: `${tagKey}-${idx}`,
+                  label: definition.label || tagKey,
                   icon: (
-                    <TagIcon className={`w-3 h-3 ${badge.iconColor}`} />
+                    <IconComponent
+                      className={`${sizeClass} ${
+                        definition.iconColor || ""
+                      }`.trim()}
+                    />
                   ),
-                  className: `${badge.text} ${badge.bg}`,
+                  className: `${definition.text ?? ""} ${
+                    definition.bg ?? ""
+                  }`.trim(),
                 });
               });
 
@@ -143,28 +177,36 @@ export function CardLeft({
                 <li key={p.id}>
               <button
                 onClick={() => handleClickProject(p)}
-                className={
-                  `group relative w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start ${isFavorite && !isSelected ? 'hover:shadow-[0_15px_40px_rgba(251,191,36,0.25)] focus-visible:shadow-[0_15px_40px_rgba(251,191,36,0.35)]' : ''} cursor-pointer` +
-                  (isSelected
-                    ? ` scale-102 shadow-2xl ring-2 ring-indigo-200`
-                    : ` hover:-translate-y-0.5`)
-                }
+                className={`group relative w-full text-left p-4 rounded-2xl transform transition-all flex flex-col gap-2 items-start overflow-hidden cursor-pointer ${
+                  isSelected
+                    ? "scale-100 shadow-[0_25px_60px_rgba(15,23,42,0.2)] ring-1 ring-slate-200"
+                    : "hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(15,23,42,0.18)]"
+                }`}
                 style={{
                   background: isSelected
-                    ? "linear-gradient(180deg,#ffffff,#f3f4f6)"
+                    ? "linear-gradient(180deg,#ffffff,#fef4db,#f3f4f6)"
                     : "linear-gradient(180deg,#fafafa,#efefef)",
                   boxShadow: isSelected
-                    ? isFavorite
-                      ? "0 8px 24px rgba(251,191,36,0.25), inset 0 1px 0 rgba(255,255,255,0.6)"
-                      : "0 8px 18px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.6)"
-                    : "0 6px 12px rgba(15,23,42,0.06)",
+                    ? "0 12px 30px rgba(15,23,42,0.14), inset 0 1px 0 rgba(255,255,255,0.9)"
+                    : "0 6px 18px rgba(15,23,42,0.08)",
                   border: isSelected ? "1px solid transparent" : "1px solid transparent",
                 }}
               >
+                <span
+                  className={`pointer-events-none absolute inset-[4px] rounded-[24px] bg-linear-to-br from-amber-50/30 to-transparent opacity-0 transition-all duration-300 ${
+                    isSelected ? "opacity-60" : "group-hover:opacity-40"
+                  }`}
+                  aria-hidden
+                />
                     <div className="w-full flex items-center justify-between">
                       <div className="flex flex-col gap-1">
-                        <div className="text-sm font-medium text-gray-800">
-                          {p.name}
+                  <div className="text-sm font-medium text-gray-800 flex items-center gap-2">
+                          <span>{p.name}</span>
+                          {isFavorite && (
+                            <span className="inline-flex items-center justify-center rounded-full bg-amber-50/90 px-2 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-amber-700">
+                              <StarIcon className="w-3 h-3 text-amber-500" aria-hidden />
+                            </span>
+                          )}
                         </div>
                         {p.subtitle && (
                           <div className="text-xs text-gray-500 mt-1">
@@ -221,63 +263,6 @@ function TagIcon(props) {
     <svg viewBox="0 0 16 16" fill="currentColor" {...props}>
       <path d="M2 6.5V2.667A1.667 1.667 0 013.667 1h3.833c.442 0 .866.176 1.179.489L14 6.81a1.667 1.667 0 010 2.357l-3.834 3.834a1.667 1.667 0 01-2.357 0L2.49 7.683A1.667 1.667 0 012 6.5z" />
     </svg>
-  );
-}
-
-const CATEGORY_BADGES = {
-  "Web APP": {
-    label: "Web App",
-    text: "text-emerald-800",
-    bg: "bg-emerald-50/90",
-    iconColor: "text-emerald-500",
-  },
-  "Sito Web": {
-    label: "Web",
-    text: "text-sky-800",
-    bg: "bg-sky-50/90",
-    iconColor: "text-sky-500",
-  },
-  Automazione: {
-    label: "Automation",
-    text: "text-rose-800",
-    bg: "bg-rose-50/90",
-    iconColor: "text-rose-500",
-  },
-  App: {
-    label: "App",
-    text: "text-indigo-800",
-    bg: "bg-indigo-50/90",
-    iconColor: "text-indigo-500",
-  },
-  "Rete Neurale": {
-    label: "AI / ML",
-    text: "text-purple-800",
-    bg: "bg-purple-50/90",
-    iconColor: "text-purple-500",
-  },
-  "AI / ML": {
-    label: "AI / ML",
-    text: "text-purple-800",
-    bg: "bg-purple-50/90",
-    iconColor: "text-purple-500",
-  },
-  Simulation: {
-    label: "Simulation",
-    text: "text-amber-900",
-    bg: "bg-amber-50/90",
-    iconColor: "text-amber-500",
-  },
-};
-
-function getCategoryBadge(category) {
-  if (!category) return null;
-  return (
-    CATEGORY_BADGES[category] || {
-      label: category,
-      text: "text-slate-800",
-      bg: "bg-slate-50/90",
-      iconColor: "text-slate-500",
-    }
   );
 }
 

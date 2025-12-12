@@ -66,7 +66,7 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
   }, [project.documents]);
 
   return (
-    <aside className="relative flex h-full max-w-md flex-col rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+    <aside className="relative flex h-full w-full flex-col rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
 
       <div className="mb-4 h-1 w-full rounded-full bg-linear-to-r from-white/0 via-white/70 to-white/0" />
 

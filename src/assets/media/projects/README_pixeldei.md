@@ -1,56 +1,59 @@
-# README (Extended)
+# Pixel-dei Simulator - README
 
-Guida operativa rapida per clonare, installare ed eseguire l'Evolutive Simulator. Se ti serve capire come funziona internamente leggi `ARCHITECTURE.md`; se ti interessa il perché scientifico vai su `PROJECT_OVERVIEW.md`. Qui trovi solo le istruzioni pratiche.
+## Scopo
+Pixel-dei e' un simulatore 2D di ecosistemi sintetici usato per esperimenti rapidi su evoluzione, metabolismo ed equilibrio climatico. Questo documento guida ricercatori e tecnici nell'installazione e nell'esecuzione in locale o headless.
 
-## 1. Descrizione rapida
-- Simulatore 2D di ecosistemi sintetici con pixel biologici e mappe climatiche procedurali.
-- Serve per lanciare run riproducibili, osservare la GUI DearPyGui o ottenere CSV di metriche.
-- Progettato per esperimenti veloci: una CLI unica, un renderer grafico, uno headless.
-- Tutto ciò che riguarda scopi scientifici è spiegato in `PROJECT_OVERVIEW.md`.
+## Stato
+- **Maturita':** Alpha avanzata (feature-complete per esperimenti interni, API soggette a refactor).
+- **Manutenzione:** manutenzione continua dallo sviluppatore principale con release trimestrali.
+- **Compatibilita':** Windows 10+, macOS 12+, qualsiasi Linux recente con OpenGL >= 3.3.
 
-## 2. Requisiti di sistema
-- **Python**: 3.10 (consigliato, testato).
-- **OS**: Windows 10+, macOS 12+, qualsiasi Linux recente con supporto OpenGL 3+.
-- **GPU**: consigliata per la GUI DearPyGui su mappe > 512×256; headless funziona anche solo CPU.
-- **Dipendenze native**: nessuna oltre a quelle installate via `pip`.
+## Requisiti
+- **Linguaggi / runtime**
+  - Python >= 3.10
+  - OpenGL 3.3 per la GUI DearPyGui
+- **Librerie principali**
+  - NumPy 1.26+, noise 1+, DearPyGui 1.11+, Typer 0.9+, Rich 13+, dataclasses-json 0.6+
+  - Optional: Arcade 2.6+ (debug renderer), Pillow 10+ per asset GUI
+- **Servizi esterni**
+  - Nessuno obbligatorio; per logging remoto integrare un endpoint HTTP custom.
 
-## 3. Installazione
+## Installazione rapida
 ```bash
-python -m venv venv
-venv\Scripts\activate    # su Linux/macOS: source venv/bin/activate
+git clone <repo> pixel-dei
+cd pixel-dei
+python -m venv .venv
+source .venv/bin/activate  # su Windows: .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
+mkdir -p data/metrics
 ```
 
-## 4. Avvio rapido
-```bash
+## Uso base
+1. **GUI interattiva**
+   ```bash
 python -m src.main --seed 42 --size 1024 512 --pixels 300
-```
-Attende il caricamento della GUI; al termine della run vengono scritti CSV in `data/metrics/`. Per lanciare headless aggiungi `--headless` (uscita testuale e CSV).
+   ```
+2. **Run headless con export CSV**
+   ```bash
+python -m src.main --headless --duration 24000 --seed 77 --label test-batch
+   ```
+3. **Caricare una mappa pre-generata**
+   ```bash
+python -m src.main --map data/maps/earth_like.npz --pixels 800 --no-gui
+   ```
 
-## 5. Parametri CLI principali
-- `--seed <int>`: seed globale per generazione mondo e popolazione; usalo per run ripetibili.
-- `--size <width height>`: dimensioni del pianeta; valori più grandi aumentano memoria/tempo.
-- `--pixels <int>`: numero di pixel iniziali spawnati casualmente.
-- `--map <path.npz>`: carica una mappa esistente (formato documentato in `ARCHITECTURE.md`); se omesso viene generata on-the-fly.
+## Configurazione essenziale
+- `config/default.yml`
+  - `world.size`, `world.seed`, `simulation.ticks`, `renderer` (gui/headless).
+- CLI override critici:
+  - `--map <path.npz>`: salta la generazione procedurale e impone un pianeta specifico.
+  - `--pixels <int>` e `--capacity <int>`: controllano memoria occupata dai buffer NumPy.
+  - `--headless` + `--label <name>`: richiesti per batch automatizzati.
+- Directory obbligatorie
+  - `data/metrics/` per i CSV; ripulire manualmente quando cresce oltremisura.
+  - `data/maps/` per mappe salvate e condivisibili tra run.
 
-## 6. Struttura minima del progetto
-```
-src/
-data/
-requirements.txt
-```
-Per il dettaglio completo delle cartelle e dei moduli consulta `ARCHITECTURE.md`.
-
-## 7. Output generati
-- **Percorso**: `data/metrics/metrics_<label>_<run_id>.csv`.
-- **Contenuto**: una riga per anno simulato con popolazione, energia media/varianza, diversità tratti, O2/CO2 e metadati run (seed, run_id).
-- Eventuali log testuali compaiono in console; screenshot o altri asset non vengono generati automaticamente.
-
-## 8. Limitazioni pratiche
-- Performance: la GUI rallenta con mondi molto grandi (>2048 px) o con oltre 5k pixel attivi.
-- Nessun resume/checkpoint: interrompere la run significa perdere i dati non ancora salvati.
-- Nessuna gestione automatica dello storage: pulisci manualmente `data/metrics/` se fai molte run.
-
-## 9. Rimandi ufficiali
-- Dettagli architetturali (moduli, formati, parametri interni) → `ARCHITECTURE.md`
-- Motivazioni, modello scientifico, uso corretto dei dati → `PROJECT_OVERVIEW.md`
+## Link extra
+- [Architettura tecnica completa](ARCHITECTURE_pixeldei.md)
+- [Panoramica scientifica / note di ricerca](PROJECT_OVERVIEW.md) *(se disponibile nel repo)*
+- [Guida CLI avanzata](README_EXTENDED.md) per elenco completo dei flag

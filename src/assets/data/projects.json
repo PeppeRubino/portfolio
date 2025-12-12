@@ -2,209 +2,253 @@
   {
     "id": "proj-1",
     "name": "Previsione estrazioni",
-    "description": "Riconoscimento di un sistema di estrazione come casuale dai dati storici.",
+    "description": "Ho costruito una pipeline Python che importa le estrazioni storiche, normalizza le ruote e crea feature statistiche. I modelli risultanti verificano se il processo segue una distribuzione casuale, producendo report comparativi e grafici per ogni draw.",
     "favorite": false,
-    "modules": ["Python"],
+    "modules": [
+      "Python"
+    ],
     "repository": "https://api.github.com/repos/PeppeRubino/llm-previsione-estrazioni",
     "category": "Rete Neurale",
     "languagesUrl": "https://api.github.com/repos/PeppeRubino/llm-previsione-estrazioni/languages",
-      "treeUrl": "https://api.github.com/repos/PeppeRubino/llm-previsione-estrazioni/git/trees/master?recursive=1",
-      "media": [
-        {
-          "id": "proj-1-img-1",
-          "type": "image",
-          "src": "plot_full.png",
-          "alt": "Grafico dei risultati storici"
-        },
-        {
-          "id": "proj-1-img-2",
-          "type": "image",
-          "src": "histogram.png",
-          "alt": "Istogramma delle frequenze"
-        },
-        {
-          "id": "proj-1-video-1",
-          "type": "video",
-          "src": "demo.mp4",
-          "alt": "Breve demo del modello in esecuzione"
-        }
-      ]
-    },
-    {
-      "id": "proj-2",
-      "name": "BrocaMetrics",
-      "description": "Modello 3D interattivo del cervello umano con aree di Brodmann, zoom, rotazione e molto altro.",
-      "modules": ["html", "css", "Tailwind", "js", "Three.js"],
-      "repository": "https://api.github.com/repos/PeppeRubino/BrocaMetrics",
-      "category": "Sito Web",
-      "languagesUrl": "https://api.github.com/repos/PeppeRubino/BrocaMetrics/languages",
-      "treeUrl": "https://api.github.com/repos/PeppeRubino/BrocaMetrics/git/trees/master?recursive=1",
-      "media": [
-        {
-          "id": "proj-2-img-1",
-          "type": "image",
-          "src": "bm_home.png",
-          "alt": "Vista frontale del modello 3D"
-        },
-        {
-          "id": "proj-2-img-2",
-          "type": "image",
-          "src": "bm_menus.png",
-          "alt": "Lobi e sezioni"
-        },
-        {
-          "id": "proj-2-img-3",
-          "type": "image",
-          "src": "bm_info.png",
-          "alt": "Aree di Broadmann e info"
-        }
-      ]
-    },
-    {
-      "id": "proj-3",
-      "name": "CogniLine",
-      "description": "Linea temporale interattiva con biografie e video correlati dei principali personaggi di psicologia e filosofia.",
-      "modules": ["html", "Tailwind", "React", "js", "YouTube API"],
-      "repository": "https://api.github.com/repos/PeppeRubino/CogniLine",
-      "category": "Web APP",
-      "languagesUrl": "https://api.github.com/repos/PeppeRubino/CogniLine/languages",
-      "treeUrl": "https://api.github.com/repos/PeppeRubino/CogniLine/git/trees/master?recursive=1",
-      "media": [
-        {
-          "id": "proj-3-img-1",
-          "type": "image",
-          "src": "cl_home.png",
-          "alt": "Home della timeline con eventi"
-        },
-        {
-          "id": "proj-3-img-2",
-          "type": "image",
-          "src": "cl_card.png",
-          "alt": "Apertura tick e card biografia"
-        },
-        {
-          "id": "proj-3-img-3",
-          "type": "image",
-          "src": "cl_large_card.png",
-          "alt": "Card biografica completa con richiesta API YouTube"
-        }
-      ]
-    },
-    {
-      "id": "proj-4",
-      "name": "Automazioni PC",
-      "description": "Automazioni di applicazioni e giochi per compiti ripetitivi o complessi usando Python e SikuliX.",
-      "modules": ["Python", "sikuliX"],
-      "repository": "",
-      "category": "Automazione",
-      "languagesUrl": "",
-      "treeUrl": "",
-      "media": [
-        {
-          "id": "proj-4-video-1",
-          "type": "video",
-          "src": "automation_pokemmo.mp4",
-          "alt": "Automazione Pokemmo: ciclo di raccolta risorse"
-        },
-        {
-          "id": "proj-4-video-2",
-          "type": "video",
-          "src": "automation_pokemmo_2.mp4",
-          "alt": "Automazione Pokemmo: sequenza avanzata di input"
-        }
-      ]
-    },
-    {
-      "id": "proj-5",
-      "name": "ClassMetrics",
-      "description": "Web app per insegnanti che genera report grafici dai file CSV degli studenti e suggerimenti personalizzati.",
-      "modules": ["html", "Tailwind", "React", "js", "Chart.js"],
-      "repository": "https://api.github.com/repos/PeppeRubino/ClassMetrics",
-      "category": "Web APP",
-      "languagesUrl": "https://api.github.com/repos/PeppeRubino/ClassMetrics/languages",
-      "treeUrl": "https://api.github.com/repos/PeppeRubino/ClassMetrics/git/trees/master?recursive=1",
-      "media": [
-        {
-          "id": "proj-5-img-1",
-          "type": "image",
-          "src": "cm_home.png",
-          "alt": "Dashboard principale ClassMetrics con overview studenti"
-        },
-        {
-          "id": "proj-5-img-2",
-          "type": "image",
-          "src": "cm_alumn.png",
-          "alt": "Profilo studente con grafici di progresso personalizzati"
-        },
-        {
-          "id": "proj-5-img-3",
-          "type": "image",
-          "src": "cm_class.png",
-          "alt": "Vista aggregata dei grafici di classe con indicatori"
-        }
-      ]
-    },
-    {
-      "id": "proj-6",
-      "name": "Decod v2",
-      "subtitle": "Suite desktop AI per trascrizione, diarizzazione e gestione licenze",
-      "description": "Pipeline proprietaria che ingegnerizza Faster-Whisper, diarizzazione Resemblyzer e riconoscimento facciale (facenet-pytorch) per generare DOCX accurati, con GUI Tkinter, licenze Firebase/Stripe e packaging Nuitka. Include VAD Silero con cache su disco, matching speaker/facce, correzione ripetizioni, esportazione DOCX e gestione pagamenti integrata.",
-      "favorite": true,
-      "modules": [
-        "Python",
-        "Tkinter GUI",
-        "Faster-Whisper",
-        "Silero VAD",
-        "Resemblyzer",
-        "facenet-pytorch",
-        "Firebase Auth",
-        "Firestore",
-        "Stripe API",
-        "FFmpeg",
-        "python-docx",
-        "Nuitka"
-      ],
-      "repository": "https://api.github.com/repos/PeppeRubino/trascrizione-e-diarizzazione",
-      "category": "AI / ML",
-      "categories": ["AI / ML", "App"],
-      "languagesUrl": "https://api.github.com/repos/PeppeRubino/trascrizione-e-diarizzazione/languages",
-      "treeUrl": "https://api.github.com/repos/PeppeRubino/trascrizione-e-diarizzazione/git/trees/master?recursive=1",
-      "media": [
-        {
-          "id": "proj-6-vid-1",
-          "type": "video",
-          "src": "decod-use.mp4",
-          "alt": "Decod: interfaccia di trascrizione con waveform colorato"
-        },
-        {
-          "id": "proj-6-vid-2",
-          "type": "video",
-          "src": "decod-output-fast.mp4",
-          "alt": "Decod: esportazione rapida con segmenti diarizzati e metadati"
-        },
-        {
-          "id": "proj-6-vid-3",
-          "type": "video",
-          "src": "decod-payment.mp4",
-          "alt": "Decod: flusso pagamenti e licenze mostrato via dashboard"
-        }
-      ],
-      "documents": [
-        {
-          "label": "Architecture",
-          "path": "../assets/media/projects/ARCHITECTURE_decod.md"
-        },
-        {
-          "label": "Readme",
-          "path": "../assets/media/projects/README_decod.md"
-        }
-      ]
-    },
+    "treeUrl": "https://api.github.com/repos/PeppeRubino/llm-previsione-estrazioni/git/trees/master?recursive=1",
+    "media": [
+      {
+        "id": "proj-1-img-1",
+        "type": "image",
+        "src": "plot_full.png",
+        "alt": "Grafico dei risultati storici"
+      },
+      {
+        "id": "proj-1-img-2",
+        "type": "image",
+        "src": "histogram.png",
+        "alt": "Istogramma delle frequenze"
+      },
+      {
+        "id": "proj-1-video-1",
+        "type": "video",
+        "src": "demo.mp4",
+        "alt": "Breve demo del modello in esecuzione"
+      }
+    ],
+    "tags": [
+      "ai-ml"
+    ]
+  },
+  {
+    "id": "proj-2",
+    "name": "BrocaMetrics",
+    "description": "Ho mappato le aree di Brodmann in JSON, modellato il mesh del cervello e integrato Three.js per rotazioni e zoom controllati. L'intero flusso va dal parsing dei dati anatomici al rendering 3D ottimizzato per browser desktop e mobile.",
+    "modules": [
+      "html",
+      "css",
+      "Tailwind",
+      "js",
+      "Three.js"
+    ],
+    "repository": "https://api.github.com/repos/PeppeRubino/BrocaMetrics",
+    "category": "Web APP",
+    "languagesUrl": "https://api.github.com/repos/PeppeRubino/BrocaMetrics/languages",
+    "treeUrl": "https://api.github.com/repos/PeppeRubino/BrocaMetrics/git/trees/master?recursive=1",
+    "media": [
+      {
+        "id": "proj-2-img-1",
+        "type": "image",
+        "src": "bm_home.png",
+        "alt": "Vista frontale del modello 3D"
+      },
+      {
+        "id": "proj-2-img-2",
+        "type": "image",
+        "src": "bm_menus.png",
+        "alt": "Lobi e sezioni"
+      },
+      {
+        "id": "proj-2-img-3",
+        "type": "image",
+        "src": "bm_info.png",
+        "alt": "Aree di Broadmann e info"
+      }
+    ],
+    "tags": [
+      "web"
+    ]
+  },
+  {
+    "id": "proj-3",
+    "name": "CogniLine",
+    "description": "Ho raccolto biografie e fonti video, normalizzando gli eventi in una timeline unica. La webapp React genera le card on-demand, aggancia la YouTube API per i contributi multimediali e mantiene filtri dinamici per percorsi tematici.",
+    "modules": [
+      "html",
+      "Tailwind",
+      "React",
+      "js",
+      "YouTube API"
+    ],
+    "repository": "https://api.github.com/repos/PeppeRubino/CogniLine",
+    "category": "Web APP",
+    "languagesUrl": "https://api.github.com/repos/PeppeRubino/CogniLine/languages",
+    "treeUrl": "https://api.github.com/repos/PeppeRubino/CogniLine/git/trees/master?recursive=1",
+    "media": [
+      {
+        "id": "proj-3-img-1",
+        "type": "image",
+        "src": "cl_home.png",
+        "alt": "Home della timeline con eventi"
+      },
+      {
+        "id": "proj-3-img-2",
+        "type": "image",
+        "src": "cl_card.png",
+        "alt": "Apertura tick e card biografia"
+      },
+      {
+        "id": "proj-3-img-3",
+        "type": "image",
+        "src": "cl_large_card.png",
+        "alt": "Card biografica completa con richiesta API YouTube"
+      }
+    ],
+    "tags": [
+      "web"
+    ]
+  },
+  {
+    "id": "proj-4",
+    "name": "Automazioni PC",
+    "description": "Analizzo il flusso ripetitivo richiesto, catturo le aree sensibili con SikuliX e scripting Python e poi costruisco macro robuste con controlli di stato. Ogni automazione produce log e fallback manuali per poter riprendere il task in sicurezza.",
+    "modules": [
+      "Python",
+      "sikuliX"
+    ],
+    "repository": "",
+    "category": "Automazione",
+    "languagesUrl": "",
+    "treeUrl": "",
+    "media": [
+      {
+        "id": "proj-4-video-1",
+        "type": "video",
+        "src": "automation_pokemmo.mp4",
+        "alt": "Automazione Pokemmo: ciclo di raccolta risorse"
+      },
+      {
+        "id": "proj-4-video-2",
+        "type": "video",
+        "src": "automation_pokemmo_2.mp4",
+        "alt": "Automazione Pokemmo: sequenza avanzata di input"
+      }
+    ],
+    "tags": [
+      "automation"
+    ]
+  },
+  {
+    "id": "proj-5",
+    "name": "ClassMetrics",
+    "description": "Parto dall'import dei CSV scolastici, ripulisco e categorizzo i dati e genero dashboard React con Chart.js. Il flusso guida l'insegnante dal caricamento alla lettura degli insight, proponendo suggerimenti basati sulle metriche calcolate.",
+    "modules": [
+      "html",
+      "Tailwind",
+      "React",
+      "js",
+      "Chart.js"
+    ],
+    "repository": "https://api.github.com/repos/PeppeRubino/ClassMetrics",
+    "category": "Web APP",
+    "languagesUrl": "https://api.github.com/repos/PeppeRubino/ClassMetrics/languages",
+    "treeUrl": "https://api.github.com/repos/PeppeRubino/ClassMetrics/git/trees/master?recursive=1",
+    "media": [
+      {
+        "id": "proj-5-img-1",
+        "type": "image",
+        "src": "cm_home.png",
+        "alt": "Dashboard principale ClassMetrics con overview studenti"
+      },
+      {
+        "id": "proj-5-img-2",
+        "type": "image",
+        "src": "cm_alumn.png",
+        "alt": "Profilo studente con grafici di progresso personalizzati"
+      },
+      {
+        "id": "proj-5-img-3",
+        "type": "image",
+        "src": "cm_class.png",
+        "alt": "Vista aggregata dei grafici di classe con indicatori"
+      }
+    ],
+    "tags": [
+      "web"
+    ]
+  },
+  {
+    "id": "proj-6",
+    "name": "Decod v2",
+    "description": "Il desktop tool gestisce ingest audio/video, normalizzazione ffmpeg, VAD Silero e Whisper con cache locale; i segmenti passano poi per diarizzazione e correzione prima dell'export DOCX. In parallelo gestisco licenze Stripe/Firebase, packaging Nuitka e onboarding utente via GUI Tkinter.",
+    "favorite": true,
+    "modules": [
+      "Python",
+      "Tkinter GUI",
+      "Faster-Whisper",
+      "Silero VAD",
+      "Resemblyzer",
+      "facenet-pytorch",
+      "Firebase Auth",
+      "Firestore",
+      "Stripe API",
+      "FFmpeg",
+      "python-docx",
+      "Nuitka"
+    ],
+    "repository": "https://api.github.com/repos/PeppeRubino/trascrizione-e-diarizzazione",
+    "category": "AI / ML",
+    "categories": [
+      "AI / ML",
+      "App",
+      "Automation"
+    ],
+    "languagesUrl": "https://api.github.com/repos/PeppeRubino/trascrizione-e-diarizzazione/languages",
+    "treeUrl": "https://api.github.com/repos/PeppeRubino/trascrizione-e-diarizzazione/git/trees/master?recursive=1",
+    "media": [
+      {
+        "id": "proj-6-vid-1",
+        "type": "video",
+        "src": "decod-use.mp4",
+        "alt": "Decod: interfaccia di trascrizione con waveform colorato"
+      },
+      {
+        "id": "proj-6-vid-2",
+        "type": "video",
+        "src": "decod-output-fast.mp4",
+        "alt": "Decod: esportazione rapida con segmenti diarizzati e metadati"
+      },
+      {
+        "id": "proj-6-vid-3",
+        "type": "video",
+        "src": "decod-payment.mp4",
+        "alt": "Decod: flusso pagamenti e licenze mostrato via dashboard"
+      }
+    ],
+    "documents": [
+      {
+        "label": "Architecture",
+        "path": "../assets/media/projects/ARCHITECTURE_decod.md"
+      },
+      {
+        "label": "Readme",
+        "path": "../assets/media/projects/README_decod.md"
+      }
+    ],
+    "tags": [
+      "ai-ml",
+      "app"
+    ]
+  },
   {
     "id": "proj-7",
-    "name": "Pixel-dèi",
-    "subtitle": "Ecosistemi sintetici 2D per studiare complessità emergente",
-    "description": "Sandbox scientifica data-oriented che simula mondi astratti a griglia per indagare energia, informazione e stabilità. World/pixel layer separati, PixelManager vettoriale, ResourceGrid NumPy condivisa, GUI DearPyGui e renderer headless, pipeline metriche CSV e CLI Typer/Rich. Consente esperimenti teorici su transizioni di complessità, colli di bottiglia evolutivi e scenari what-if per astrobiologia e filosofia della simulazione.",
+    "name": "Pixel-dei",
+    "description": "Genero mondi procedurali, popolo gli agenti nei buffer NumPy e lascio che Simulation coordini world e pixel layer. Ogni run emette metriche CSV, visualizzazioni DearPyGui e log headless per analizzare i pattern evolutivi.",
     "favorite": true,
     "modules": [
       "Python",
@@ -222,12 +266,12 @@
     "languagesUrl": "https://github.com/PeppeRubino/Pixel-dei/languages",
     "treeUrl": "https://github.com/PeppeRubino/Pixel-dei/git/trees/master?recursive=1",
     "media": [
-        {
-          "id": "proj-6-video-1",
-          "type": "video",
-          "src": "pixel-dei-testing.mp4",
-          "alt": "Pixel-dèi: simulazione di ecosistemi sintetici in tempo reale"
-        }
+      {
+        "id": "proj-6-video-1",
+        "type": "video",
+        "src": "pixel-dei-testing.mp4",
+        "alt": "Pixel-d\u00e8i: simulazione di ecosistemi sintetici in tempo reale"
+      }
     ],
     "documents": [
       {
@@ -238,13 +282,15 @@
         "label": "Readme",
         "path": "../assets/media/projects/README_pixeldei.md"
       }
+    ],
+    "tags": [
+      "simulation"
     ]
   },
   {
     "id": "proj-8",
-    "name": "Luce – Assistente AI",
-    "subtitle": "Agente vocale e orchestrazione LLM per il sito",
-    "description": "Interfaccia conversazionale che usa Groq (Llama 3.1 Instant) per rispondere in lingua italiana, guida vocale con SpeechSynthesis e integrazione CV/progetti all'interno del portfolio.",
+    "name": "Luce - Assistente AI",
+    "description": "Luce orchestra Groq Llama per la risposta, SpeechSynthesis per la voce e un knowledge base locale per contestualizzare le risposte. Il widget sincronizza stato chat, suggerimenti rapidi e preferenze audio per guidare l'utente nel portfolio.",
     "favorite": true,
     "modules": [
       "React + Vite",
@@ -266,9 +312,13 @@
       {
         "id": "proj-8-img-1",
         "type": "image",
-        "src": "luce_interface.png",
+        "src": "luce_layout.png",
         "alt": "Interfaccia della chat vocale Luce"
       }
+    ],
+    "tags": [
+      "assistant",
+      "ai-ml"
     ]
   }
 ]

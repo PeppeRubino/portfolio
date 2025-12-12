@@ -1,142 +1,83 @@
-# ARCHITECTURE
+# Pixel-dei Simulator - Architecture
 
-## 1. Scopo tecnico
-Piattaforma modulare, data-oriented e riproducibile per simulazioni sintetiche di ecosistemi. Questo documento spiega come è costruito il sistema; per obiettivi scientifici e uso operativo rimandare rispettivamente a `PROJECT_OVERVIEW.md` e `README_EXTENDED.md`.
+## Scopo del documento
+Illustrare come e' costruito il simulatore Pixel-dei: componenti software, regole di comunicazione, modelli dati e decisioni architetturali che abilitano le simulazioni evolutive. Non tratta l'uso dell'applicazione o i risultati scientifici (vedi README e PROJECT_OVERVIEW).
 
-## 2. Tipo di modello
-- Sistema dinamico discreto
-- Multi-agente (pixel biologici)
-- Griglia 2D con campi scalari
-- Implementazione data-oriented (array NumPy condivisi)
+## Panoramica
+Pixel-dei e' diviso in quattro layer coordinati dal loop `Simulation`:
+1. **World Layer** (`world/`): genera e aggiorna mappe ambientali (elevazione, clima, risorse).
+2. **Pixel Layer** (`pixel/`): mantiene lo stato di milioni di agenti come array NumPy condivisi.
+3. **Simulation Layer** (`simulation/`): orchestrazione tick-by-tick, metriche e scheduling renderer.
+4. **Presentation Layer** (`gui/`, `rendering/`): GUI DearPyGui, overlay, renderer headless.
 
-## 3. Modello architetturale a strati
-1. **World Layer** – genera mappe, biomi e canali ambientali.
-2. **Pixel Layer** – gestisce stato, tratti, metabolismo e riproduzione degli agenti.
-3. **Simulation Layer** – coordina update world/pixel, scheduling e metriche.
-4. **Presentation Layer** – GUI DearPyGui o rendering headless.
+La comunicazione e' tutta in-process: i layer condividono strutture NumPy e passano riferimenti diretti; l'I/O su disco e' limitato a CSV e mappe `.npz`.
 
-## 4. Struttura delle cartelle
-```
-src/
-  main.py
-  world/
-    biome.py
-    world.py
-    map_generator.py
-    environment.py
-    resources.py
-  pixel/
-    pixel_manager.py
-    genome.py
-    metabolism.py
-    reproduction.py
-    behaviors.py
-    identity.py
-    traits.py
-  simulation/
-    core.py
-    metrics.py
-  gui/
-    dpg_app.py
-    dpg_world_view.py
-    dpg_sidebar.py
-    dpg_topbar.py
-    layout.py
-  rendering/
-    debug_renderer.py
-  ui/
-  commands/
-data/
-requirements.txt
-PROJECT_OVERVIEW.md
-README_EXTENDED.md
-```
+## Principi di design
+- **Data-Oriented Design:** tutti gli agenti vivono in array strutturati; l'update scorre su colonne per sfruttare NumPy.
+- **Riproducibilita':** seme globale e configurazioni CLI vengono serializzati nelle metriche per rigenerare run identiche.
+- **Isolamento world/pixel:** il mondo fornisce solo campi scalari campionabili; il Pixel Manager applica le regole locali senza dipendenze circolari.
+- **Renderer plug-in:** GUI DearPyGui e renderer headless implementano la stessa interfaccia e possono essere scambiati senza toccare il loop core.
+- **Zero servizi esterni:** l'intero stack lavora offline cosi' da poter girare in cluster privati o laptop senza rete.
 
-## 5. Responsabilità dei moduli
-- **world/**
-  - `map_generator.py`: rumori multi-scala, generazione campi elevazione/temperatura/umidità/pressione.
-  - `biome.py`: enum `Biome`, colori, funzione `biome_from_env`.
-  - `world.py`: orchestrazione globale di mappe, gas atmosferici, stato ambientale.
-  - `environment.py`: definizione canali ambientali (LIGHT, ORGANIC_SOUP, ecc.) e sampling.
-  - `resources.py`: `ResourceGrid` (tensor NumPy) per nutrienti/atomi con operazioni di diffusione e consumo.
-- **pixel/**
-  - `pixel_manager.py`: array condivisi per posizioni, energia, stamina, flag `alive`, specie, referenze a genome/traits; gestisce spawn, step, riproduzione.
-  - `genome.py`: definizione dei genomi neutrali e decode dei tratti attivi.
-  - `metabolism.py`: indici delle risorse interne (ENERGY, ORGANICS, MINERALS, MEMBRANE, INFO_ORDER) e funzioni di consumo/produzione.
-  - `reproduction.py`: condizioni per divisione, mutazioni e allocazione risorse ai figli.
-  - `behaviors.py`: heuristics di movimento per pixel con motilità avanzata.
-  - `identity.py`, `traits.py`: nomenclatura e definizione trait set.
-- **simulation/**
-  - `core.py`: classe `Simulation`, loop principale, orchestrazione tick (world → pixel → renderer), hooking dei renderer.
-  - `metrics.py`: `RunRecorder` (campionamento annuale, buffer in memoria e scrittura CSV).
-- **gui/**
-  - `dpg_app.py`: entry point DearPyGui.
-  - `dpg_world_view.py`: rendering mappa e overlay.
-  - `dpg_sidebar.py`: mixin per stats globali, pixel selezionato, log.
-  - `dpg_topbar.py`, `layout.py`: controlli e costanti UI.
-- **rendering/debug_renderer.py**: renderer testuale/headless per run batch.
-- **main.py**: CLI, parsing argomenti, costruzione world/pixel/simulation, scelta renderer, aggancio metrics.
+## Componenti
+### World Layer (`src/world/`)
+- `map_generator.py`: noise multi-scala, generazione campi `elevation`, `temperature`, `humidity`, `pressure`.
+- `environment.py`: definisce i canali ambientali (LIGHT, ORGANIC_SOUP, ecc.) e i sampler.
+- `resources.py`: `ResourceGrid` (tensor NumPy) per nutrienti/gas con operatori di diffusione e evaporazione.
+- `biome.py`: classificatore di biomi piu' palette colori.
+- `world.py`: container principale, orchestrazione processi ambientali e hooking verso Simulation.
 
-## 6. Flusso dei dati
-### Setup
-1. `main.py` carica gli argomenti CLI, setta seed, costruisce `World` (caricando `map_path` o generandone una).
-2. Viene creata la `ResourceGrid` e assegnata al world.
-3. `PixelManager` viene dimensionato e popolato tramite `spawn_random`.
-4. `Simulation` riceve world, pixel manager e resource grid; opzionalmente viene creato `RunRecorder`.
+### Pixel Layer (`src/pixel/`)
+- `pixel_manager.py`: array strutturati (`capacity x features`), maschere boolean, allocazione/spawn/morte.
+- `genome.py` e `traits.py`: definizione tratti genetici e decodifica in parametri metabolici.
+- `metabolism.py`, `reproduction.py`, `behaviors.py`: funzioni vettoriali per consumo risorse, divisione, movimento.
+- `identity.py`: naming specie e gestione lineage.
 
-### Runtime loop
-1. `Simulation.step()` aggiorna world (processi ambientali).
-2. PixelManager esegue update vettoriali: metabolismo, movimento, riproduzione, morte; aggiorna gli array interni.
-3. Renderer selezionato (GUI o headless) legge world/pixel e visualizza/logga.
-4. `RunRecorder.update()` campiona se è trascorso l'intervallo richiesto.
+### Simulation Layer (`src/simulation/`)
+- `core.py`: classe `Simulation`, orchestrazione degli step (`update_world`, `update_pixels`, `render/frame`).
+- `metrics.py`: `RunRecorder` per campionare e salvare CSV, conversione `tick -> year`.
+- `commands/`, `config/`: parsing CLI (Typer) e preset YAML condivisi.
 
-### Persistenza
-- A chiusura della GUI o al termine dei tick headless, `RunRecorder.save()` serializza i campioni in CSV (cartella `data/metrics`).
-- Non esistono snapshot di stato: tutte le altre strutture vivono in memoria.
+### Presentation Layer
+- `gui/dpg_app.py`: inizializza DearPyGui, crea viewport, gestisce eventi UI.
+- `gui/dpg_world_view.py`, `gui/dpg_sidebar.py`, `gui/dpg_topbar.py`: overlay grafici, controlli run, stats.
+- `rendering/debug_renderer.py`: renderer headless per run batch con log testuale.
 
-## 7. Formato dei dati
-- **CSV metrics**: header commentato con metadata (`datetime`, `run_id`, `seed`, `label`, meta extra).
-- **Campi principali** per riga:
-  - `tick`, `time`, `year`
-  - `population`
-  - `avg_energy`, `var_energy`
-  - `trait_diversity`, `avg_traits_per_cell`
-  - `mean_info_order`
-  - `global_o2`, `global_co2`
-  - `seed`, `run_id`
+## Flussi chiave
+1. **Bootstrap simulazione**
+   - `python -m src.main ...` -> parsing CLI (Typer) -> set del seed globale.
+   - Carica config YAML opzionale, crea `World` (da mappa `.npz` o generatori procedurali).
+   - Inizializza `ResourceGrid` e `PixelManager` rispettando `capacity`.
+   - Costruisce `Simulation(world, pixel_manager, resource_grid, renderer, recorder)`.
+2. **Loop di simulazione**
+   - `Simulation.step()`:
+     1. `world.update()` aggiorna parametri climatici, diffusion, gas.
+     2. `pixel_manager.update()` applica metabolismo, movimento, riproduzione, morte e compattazione array.
+     3. Il renderer selezionato legge i buffer e disegna GUI o produce log headless.
+     4. `RunRecorder.update(tick)` campiona se ha raggiunto l'intervallo impostato.
+3. **Persistenza/output**
+   - Alla chiusura o raggiunto `max_ticks`, `RunRecorder.save()` scrive `data/metrics/metrics_<label>_<run_id>.csv`.
+   - Mappe climatiche possono essere salvate/riusate tramite `numpy.savez` (passaggio manuale).
 
-## 8. Parametri critici interni
-- `PixelManager.capacity`: dimensiona tutti gli array; deve essere >= 4 × pixel iniziali per gestire duplicazioni.
-- Soglie metaboliche: definite in `metabolism.py` e `reproduction.py` (energia minima per divisione, costi trait).
-- Soglie biomi: in `biome_from_env` (altitudine, temperature, humidity, global_o2, organic_layer, noise).
-- `sample_every` (RunRecorder) e convenzione 12 mesi = 1 anno: controllano la risoluzione temporale delle metriche.
+## Modello dati
+- **World fields**
+  - Matrici 2D float32 per `elevation`, `temperature`, `humidity`, `light`, `organic_soup`, `pressure`.
+  - Ogni cella mappa 1:1 con coordinate pixel in `PixelManager`.
+- **Pixel arrays**
+  - `positions` (int32 n x 2), `energy`, `organics`, `minerals`, `alive`, `species_id`, `genome`, `traits`.
+  - `capacity` definisce la dimensione massima; `count` indica quanti agenti sono attivi.
+- **Metrics CSV**
+  - Header YAML-like con `run_id`, `seed`, `label`, CLI args.
+  - Campi per tick/anni, popolazione, energia media/varianza, diversita' tratti, `global_o2`, `global_co2`.
 
-## 9. Dipendenze tecniche
-- NumPy – core data layout e operazioni vettoriali.
-- noise – mappe procedurali (Perlin/simplex).
-- DearPyGui – front-end grafico.
-- Arcade (legacy) – parte del debug renderer.
-- Pillow – supporto texture/testo.
-- dataclasses-json – serializzazione opzionale di oggetti complessi.
-- Typer/Rich/PyYAML – CLI helper, logging, parsing config.
+## Decisioni e trade-off
+- **NumPy puro vs GPU:** garantisce portabilita' e profiling semplice, ma scala meno di una pipeline CUDA dedicata.
+- **Assenza di checkpoint:** riduce complessita' ma impedisce resume di run lunghe; accettato per mantenere storage minimale.
+- **DearPyGui come unica GUI:** scelta per performance e API immediate-mode; trade-off e' il requisito OpenGL 3.3.
+- **File YAML opzionali:** abilitano preset condivisi ma introducono duplicita' di configurazione (CLI + YAML), percio' il CLI override prevale sempre.
+- **Renderer headless limitato:** non copre tutte le feature GUI (es. inspector dettagliato); accettato per velocizzare batch server-side.
 
-## 10. Limiti tecnici strutturali
-- Nessuna accelerazione GPU per la simulazione (solo per la GUI).
-- Nessun event loop asincrono: tutti gli agenti aggiornano nello stesso tick.
-- Nessun checkpoint/resume del mondo o dei pixel.
-- Metriche aggregate: non viene salvata la storia completa per pixel.
-- Headless renderer non copre tutte le feature della GUI.
-
-## 11. Estensioni tecniche future
-- Plugin climatici o generatori mondo intercambiabili.
-- Batch runner headless con orchestrazione e raccolta centralizzata.
-- Snapshot/restore degli stati (checkpoint su disco).
-- Storage columnar (Parquet) per metriche e tracciamento lineage.
-- Sistema eventi ambientali dinamici agganciato a `Simulation`.
-
-## 12. Competenze tecniche dimostrate
-- Architettura modulare a strati con responsabilità chiare.
-- Progettazione data-oriented per gestire migliaia di agenti con NumPy.
-- Pipeline di metriche personalizzata e integrata con il loop principale.
-- Integrazione DearPyGui per monitoring e debugging in tempo reale.
-- Tooling CLI/packaging per distribuire il sistema in ambienti riproducibili.
+## Debiti tecnici noti
+- Nessun sistema di plugin per generatori di mappe o rule-set: oggi serve modificare direttamente i moduli core.
+- Mancanza di validazione schema per i file `.npz` di mappa (gli errori emergono solo a runtime).
+- Metriche salvano solo aggregati; non esiste cronologia completa per singolo pixel.

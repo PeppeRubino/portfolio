@@ -69,10 +69,10 @@ export function CardHome({
     "AI transcription & diarization",
     "LLM + automation pipelines",
     "Synthetic ecosystem simulations",
-    "Full-stack product delivery",
+    "AI-empowered delivery",
     "Vision-guided desktop apps",
   ],
-  bio = "Dottore in Scienze e Tecniche Psicologiche (110 e lode) e sviluppatore autodidatta: costruisco web app end-to-end, modelli neurali e sistemi AI generativi. Porto i brief dall'idea a prototipi chiari e MVP dimostrabili, curando UX, API e deploy.",
+  bio = "AI Empowered Developer con laurea in Scienze e Tecniche Psicologiche (110 e lode): unisco metodo di ricerca e sviluppo software per progettare pipeline AI, GUI e automazioni end-to-end, passando da analisi, prototipazione e deploy con la stessa cura.",
   onSelectFocus = () => {},
   photoVariant = "rounded",
   photoCaption = null,
@@ -104,7 +104,7 @@ export function CardHome({
             >
               <div
                 className={`relative h-full w-full overflow-hidden ${
-                  photoVariant === "circle" ? "rounded-full" : "rounded-[32px]"
+                  photoVariant === "circle" ? "rounded-full" : "rounded-4xl"
                 }`}
               >
                 <img
@@ -113,7 +113,7 @@ export function CardHome({
                   className="w-full h-full object-cover object-top brightness-105 contrast-105 saturate-110"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent" aria-hidden />
+                <div className="absolute inset-0 bg-linear-to-t from-slate-900/20 via-transparent to-transparent" aria-hidden />
               </div>
             </div>
             {photoCaption ? (
@@ -134,7 +134,7 @@ export function CardHome({
                   <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">{name}</h1>
                   <span className="text-sm font-medium text-slate-500">Nato il 21·11·1995</span>
                 </div>
-                <span className="text-sm font-medium text-slate-500">Full-stack & AI engineer (autodidatta)</span>
+                <span className="text-sm font-medium text-slate-500">AI Empowered - Developer (autodidatta)</span>
               </div>
               <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                 {bio}

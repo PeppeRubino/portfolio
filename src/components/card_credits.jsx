@@ -5,8 +5,8 @@ const SECTIONS = [
   {
     title: "Profilo",
     items: [
-      "Giuseppe Rubino – Full-stack & AI Engineer autodidatta (laurea in Scienze e Tecniche Psicologiche, con lode).",
-      "Costruisco prodotti end-to-end: UX, backend API, modelli neurali, automazioni e deploy.",
+      "Giuseppe Rubino – AI Empowered Developer autodidatta (laurea in Scienze e Tecniche Psicologiche, con lode).",
+      "Costruisco prodotti AI end-to-end: ricerca, UX, backend API, modelli neurali, automazioni e deploy.",
       "Il sito e GitHub documentano i progetti chiave (Decod, Pixel-dèi, BrocaMetrics, automazioni AI) con codice e demo consultabili."
     ]
   },

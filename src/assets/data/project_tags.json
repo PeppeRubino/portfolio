@@ -1,0 +1,64 @@
+{
+  "ai-ml": {
+    "label": "AI / ML",
+    "icon": "tag",
+    "text": "text-purple-800",
+    "bg": "bg-purple-50/90",
+    "iconColor": "text-purple-500",
+    "aliases": [
+      "AI / ML",
+      "Rete Neurale"
+    ]
+  },
+  "app": {
+    "label": "App",
+    "icon": "tag",
+    "text": "text-indigo-800",
+    "bg": "bg-indigo-50/90",
+    "iconColor": "text-indigo-500",
+    "aliases": [
+      "App"
+    ]
+  },
+  "automation": {
+    "label": "Automation",
+    "icon": "tag",
+    "text": "text-rose-800",
+    "bg": "bg-rose-50/90",
+    "iconColor": "text-rose-500",
+    "aliases": [
+      "Automazione"
+    ]
+  },
+  "simulation": {
+    "label": "Simulation",
+    "icon": "tag",
+    "text": "text-sky-800",
+    "bg": "bg-sky-50/90",
+    "iconColor": "text-sky-500",
+    "aliases": [
+      "Simulation"
+    ]
+  },
+  "web": {
+    "label": "Web App",
+    "icon": "tag",
+    "text": "text-emerald-800",
+    "bg": "bg-emerald-50/90",
+    "iconColor": "text-emerald-500",
+    "aliases": [
+      "Web APP",
+      "Sito Web"
+    ]
+  },
+  "assistant": {
+    "label": "Assistant",
+    "icon": "tag",
+    "text": "text-cyan-800",
+    "bg": "bg-cyan-50/90",
+    "iconColor": "text-cyan-500",
+    "aliases": [
+      "Assistant"
+    ]
+  }
+}

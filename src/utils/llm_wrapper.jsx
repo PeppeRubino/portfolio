@@ -1,10 +1,5 @@
 import { buildDocumentMessages } from "./project_documents.js";
 
-// utils/llm_wrapper.jsx
-const RAW_GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
-const GROQ_API_KEY =
-  typeof RAW_GROQ_API_KEY === "string" ? RAW_GROQ_API_KEY.trim() : "";
-
 /**
  * System prompt principale - in italiano.
  */
@@ -200,10 +195,9 @@ Istruzioni: suggerisci possibili follow-up (es.: "Vuoi informazioni su uno di qu
 
   // 8) chiamata API
   try {
-    const resp = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const resp = await fetch("/api/groq", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${GROQ_API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({

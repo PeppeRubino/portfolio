@@ -20,11 +20,16 @@ export default {
 
       const payload = await request.json();
 
+      const groqKey = env.GROQ_API_KEY || env.VITE_GROQ_API_KEY;
+      if (!groqKey) {
+        return new Response("Missing GROQ_API_KEY binding", { status: 500 });
+      }
+
       const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${env.GROQ_API_KEY}`,
+          "Authorization": `Bearer ${groqKey}`,
         },
         body: JSON.stringify(payload),
       });

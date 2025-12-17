@@ -8,6 +8,8 @@ import useLuceSpeech from './useLuceSpeech.js';
 import VoiceOrb from './VoiceOrb.jsx';
 import Composer from './Composer.jsx';
 
+const PREMIUM_PASSWORD = 'Giuseppe095.';
+
 export default function ChatWidget({ className = '' }) {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState([]);
@@ -19,6 +21,9 @@ export default function ChatWidget({ className = '' }) {
   );
   const [pendingDocRequest, setPendingDocRequest] = useState(null);
   const [docDownload, setDocDownload] = useState(null);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const { isSpeaking, speakText, unlockAudio } = useLuceSpeech(useCustomVoice);
 
   const affirmativeWords = ['si', 'sì', 'yes', 'ok', 'vai', 'va bene', 'confermo'];
@@ -203,6 +208,32 @@ export default function ChatWidget({ className = '' }) {
     a.click();
   }
 
+  function closePasswordModal() {
+    setShowPasswordModal(false);
+    setPasswordInput('');
+    setPasswordError('');
+  }
+
+  function handleRequestPremium() {
+    if (useCustomVoice) {
+      setUseCustomVoice(false);
+      return;
+    }
+    setPasswordInput('');
+    setPasswordError('');
+    setShowPasswordModal(true);
+  }
+
+  function handlePasswordSubmit(e) {
+    if (e?.preventDefault) e.preventDefault();
+    if (passwordInput === PREMIUM_PASSWORD) {
+      setUseCustomVoice(true);
+      closePasswordModal();
+    } else {
+      setPasswordError('Password non corretta.');
+    }
+  }
+
   return (
     <section className={`my-16 flex w-full items-center justify-center px-4 ${className}`}>
       <div className="relative z-20 w-full max-w-2xl rounded-[34px] border border-white/70 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/85 p-6 shadow-[0_35px_100px_rgba(15,23,42,0.25)]">
@@ -227,7 +258,7 @@ export default function ChatWidget({ className = '' }) {
                 <button
                   type="button"
                   aria-pressed={useCustomVoice}
-                  onClick={() => setUseCustomVoice((prev) => !prev)}
+                  onClick={handleRequestPremium}
                   className={`rounded-full px-4 py-1 text-xs font-semibold border transition ${
                     useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
                   }`}
@@ -250,7 +281,7 @@ export default function ChatWidget({ className = '' }) {
                 <button
                   type="button"
                   aria-pressed={useCustomVoice}
-                  onClick={() => setUseCustomVoice(true)}
+                  onClick={handleRequestPremium}
                   className={`rounded-full px-3 py-1 text-xs font-semibold border transition ${
                     useCustomVoice ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white/80 text-slate-600 border-slate-200'
                   }`}
@@ -300,6 +331,46 @@ export default function ChatWidget({ className = '' }) {
           </div>
         </div>
       </div>
+      {showPasswordModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4">
+          <div className="w-full max-w-sm rounded-2xl border border-white/60 bg-white p-6 shadow-2xl">
+            <h4 className="text-base font-semibold text-slate-900">Abilita voce premium</h4>
+            <p className="mt-1 text-sm text-slate-600">Inserisci la password per usare la voce premium.</p>
+            <form className="mt-4 space-y-3" onSubmit={handlePasswordSubmit}>
+              <label className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Password
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value);
+                    if (passwordError) setPasswordError('');
+                  }}
+                  className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                  placeholder="Inserisci password"
+                  autoFocus
+                />
+              </label>
+              {passwordError && <p className="text-xs font-semibold text-red-500">{passwordError}</p>}
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={closePasswordModal}
+                  className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
+                >
+                  Annulla
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow transition hover:bg-indigo-500"
+                >
+                  Conferma
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

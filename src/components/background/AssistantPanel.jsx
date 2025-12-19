@@ -12,7 +12,7 @@ export default function AssistantPanel({
     <section className="w-full">
       <div
         ref={chatRef}
-        className="relative mx-auto flex w-full max-w-[900px] min-h-[60vh] items-center justify-center"
+        className="relative mx-auto flex w-full max-w-[900px] min-h-[60vh] items-start justify-center pt-4 sm:items-center sm:pt-0"
       >
         <Floaters
           skills={libraries}

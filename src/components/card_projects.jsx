@@ -114,7 +114,7 @@ export function CardLeft({
 
   return (
     <aside
-      className="relative mt-8 md:mt-0 w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_70px_rgba(15,23,42,0.18)]"
+      className="relative mt-8 md:mt-0 w-full max-w-md md:max-w-none flex flex-col p-6 rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 via-slate-50/90 to-slate-100/85 shadow-[0_25px_80px_rgba(79,70,229,0.16)]"
       style={{ maxHeight: '75vh' }}
     >
       <div className="h-full flex flex-col">
@@ -184,7 +184,7 @@ export function CardLeft({
                 }`}
                 style={{
                   background: isSelected
-                    ? "linear-gradient(180deg,#ffffff,#fef4db,#f3f4f6)"
+                    ? "linear-gradient(180deg,#ffffff,#eef2ff,#f3f4f6)"
                     : "linear-gradient(180deg,#fafafa,#efefef)",
                   boxShadow: isSelected
                     ? "0 12px 30px rgba(15,23,42,0.14), inset 0 1px 0 rgba(255,255,255,0.9)"
@@ -193,7 +193,7 @@ export function CardLeft({
                 }}
               >
                 <span
-                  className={`pointer-events-none absolute inset-[4px] rounded-[24px] bg-linear-to-br from-amber-50/30 to-transparent opacity-0 transition-all duration-300 ${
+                  className={`pointer-events-none absolute inset-[4px] rounded-[24px] bg-linear-to-br from-indigo-100/35 to-transparent opacity-0 transition-all duration-300 ${
                     isSelected ? "opacity-60" : "group-hover:opacity-40"
                   }`}
                   aria-hidden
@@ -203,8 +203,8 @@ export function CardLeft({
                   <div className="text-sm font-medium text-gray-800 flex items-center gap-2">
                           <span>{p.name}</span>
                           {isFavorite && (
-                            <span className="inline-flex items-center justify-center rounded-full bg-amber-50/90 px-2 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-amber-700">
-                              <StarIcon className="w-3 h-3 text-amber-500" aria-hidden />
+                            <span className="inline-flex items-center justify-center rounded-full bg-indigo-50/90 px-2 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-indigo-700">
+                              <StarIcon className="w-3 h-3 text-indigo-500" aria-hidden />
                             </span>
                           )}
                         </div>

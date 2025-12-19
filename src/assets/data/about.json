@@ -1,9 +1,79 @@
 {
   "name": "Giuseppe Rubino",
   "age": 30,
-  "bio": "Sono laureato in Scienze e Tecniche Psicologiche con 110 e lode e lavoro come AI Empowered Developer: progetto pipeline AI, GUI e automazioni end-to-end con autonomia totale.",
-  "school": "Liceo Psicopedagogico: Istituto F. Bisazza; Rappresentante di Istituto per 2 anni, Vicepresidente della Consulta cittadina, membro della giunta esecutiva dell'istituto.",
+  "bio": "Sono laureato in Scienze e Tecniche Psicologiche con 110 e lode e mi definisco AI-Empowered Developer: progetto pipeline AI, GUI e automazioni end-to-end, utilizzando l’AI come supporto al coding e acceleratore di sviluppo, mantenendo il controllo su architettura, logica e validazione.",
+  "school": "Liceo Psicopedagogico – Istituto F. Bisazza. Rappresentante di istituto, membro della giunta esecutiva scolastica e vicepresidente della Consulta cittadina degli studenti.",
   "university": "Corso di Laurea in Scienze e Tecniche Psicologiche, L-24, Unime.",
-  
-  "general_info": "Mi occupo autonomamente di sviluppo software, AI e psicologia divulgativa. Porto metodo scientifico, analisi dei bisogni e cicli rapidi di sperimentazione su ogni progetto, unendo ricerca e delivery per ottenere strumenti concreti."
+  "general_info": "Mi occupo autonomamente di sviluppo software, AI applicata e divulgazione psicologica. Applico metodo scientifico, analisi dei bisogni e cicli rapidi di sperimentazione, unendo ricerca e delivery per costruire strumenti concreti, misurabili e utilizzabili.",
+  "categories": [
+    {
+      "id": "education",
+      "fields": ["school", "university"],
+      "keywords": [
+        "formazione",
+        "percorso di studi",
+        "percorso formativo",
+        "percorso accademico",
+        "dove ha studiato",
+        "dove studia",
+        "dove si è formato",
+        "dove si e formato",
+        "studi universitari",
+        "background accademico",
+        "formazione accademica",
+        "titolo di studio",
+        "titoli di studio",
+        "la sua formazione",
+        "la sua istruzione",
+        "pregressa formazione",
+        "carriera accademica"
+      ],
+      "tokens": [
+        "formazione",
+        "studi",
+        "studia",
+        "studiato",
+        "istruzione",
+        "educazione"
+      ]
+    },
+    {
+      "id": "school",
+      "fields": ["school"],
+      "keywords": ["scuola", "liceo", "istituto", "bisazza"]
+    },
+    {
+      "id": "university",
+      "fields": ["university"],
+      "keywords": ["università", "universita", "laurea", "unime"]
+    },
+    {
+      "id": "general",
+      "fields": ["bio", "general"],
+      "keywords": [
+        "chi sei",
+        "su di te",
+        "informazioni su",
+        "informazioni",
+        "dimmi qualcosa su",
+        "cosa sai",
+        "parlami di te",
+        "parlami di lui",
+        "raccontami di te",
+        "dimmi di lui",
+        "fammi conoscere",
+        "fammi leggere la bio",
+        "mostrami la bio",
+        "voglio la bio",
+        "dammi la bio",
+        "presentati",
+        "presentazione",
+        "profilo",
+        "biografia",
+        "bio"
+      ],
+      "tokens": ["bio", "biografia", "presentati", "presentazione", "profilo"],
+      "includeProjectsSummary": true
+    }
+  ]
 }

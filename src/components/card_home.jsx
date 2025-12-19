@@ -66,13 +66,13 @@ function Typewriter({ words = [], delay = 2000, className = "" }) {
 export function CardHome({
   name = "Giuseppe Rubino",
   roles = [
-    "AI transcription & diarization",
-    "LLM + automation pipelines",
+    "Speech AI: transcription & diarization",
+    "LLM integration + automation pipelines",
     "Synthetic ecosystem simulations",
-    "AI-empowered delivery",
-    "Vision-guided desktop apps",
+    "Desktop apps with embeddings (voice/face)",
+    "AI-assisted build & deploy",
   ],
-  bio = "AI Empowered Developer con laurea in Scienze e Tecniche Psicologiche (110 e lode): unisco metodo di ricerca e sviluppo software per progettare pipeline AI, GUI e automazioni end-to-end, passando da analisi, prototipazione e deploy con la stessa cura.",
+  bio = "AI-empowered developer con laurea in Scienze e Tecniche Psicologiche (con lode): unisco metodo di ricerca, analisi e sviluppo software per progettare pipeline AI e automazioni affidabili, dalla prototipazione al deploy con attenzione a qualità, metriche e robustezza.",
   onSelectFocus = () => {},
   photoVariant = "rounded",
   photoCaption = null,
@@ -93,12 +93,12 @@ export function CardHome({
       {/* NOTA: floaters rimossi — qui resta solo la card principale */}
 
       <aside
-          className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_70px_rgba(15,23,42,0.18)] backdrop-blur-xl"
+          className="relative z-10 h-full w-full max-w-4xl rounded-4xl border border-white/60 bg-linear-to-br from-white/95 via-slate-50/90 to-slate-100/80 p-6 md:p-10 shadow-[0_25px_80px_rgba(79,70,229,0.16)] backdrop-blur-xl"
       >
         <div className="flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-8 select-none">
           <div className="flex flex-col items-center gap-3 pt-2 md:pt-0" style={{ flexShrink: 0 }}>
             <div
-              className={`relative w-36 h-36 md:w-48 md:h-48 bg-linear-to-br from-white/92 via-slate-50/85 to-slate-100/85 p-1 shadow-[0_22px_60px_rgba(15,23,42,0.18)] ${
+              className={`relative w-36 h-36 md:w-48 md:h-48 bg-linear-to-br from-white/92 via-slate-50/85 to-slate-100/85 p-1 shadow-[0_22px_60px_rgba(79,70,229,0.14)] ${
                 photoVariant === "circle" ? "rounded-full" : "rounded-[38px]"
               }`}
             >
@@ -134,7 +134,7 @@ export function CardHome({
                   <h1 className="text-2xl md:text-3xl font-semibold text-slate-900">{name}</h1>
                   <span className="text-sm font-medium text-slate-500">Nato il 21·11·1995</span>
                 </div>
-                <span className="text-sm font-medium text-slate-500">AI Empowered - Developer (autodidatta)</span>
+                <span className="text-sm font-medium text-slate-500">AI Empowered - Developer</span>
               </div>
               <p className="text-base md:text-lg text-slate-600 leading-relaxed">
                 {bio}
@@ -158,9 +158,40 @@ export function CardHome({
 
             <div className="grid grid-cols-1 gap-4 select-none md:grid-cols-3">
               {[
-                { title: "Frontend", chip: "UI Layer", items: ["React", "Vite", "Tailwind"], key: "frontend" },
-                { title: "Backend & Ops", chip: "APIs & Deploy", items: ["Node.js", "Python", "REST/API"], key: "backend" },
-                { title: "AI / Automation", chip: "LLM & CV", items: ["LLM", "Whisper", "Computer Vision"], key: "ai" },
+{ 
+  title: "Frontend",
+  chip: "UI Layer",
+  items: [
+    "React (AI-assisted)",
+    "Vite",
+    "Tailwind CSS",
+    "Data-driven UI"
+  ],
+  key: "frontend"
+},
+{ 
+  title: "Backend & Ops",
+  chip: "APIs & Deploy",
+  items: [
+    "Python (AI-assisted)",
+    "REST - service orchestration",
+    "Cloudflare Workers (Wrangler)",
+    "Firebase Auth - Firestore",
+    "Stripe integration"
+  ],
+  key: "backend"
+},
+{ 
+  title: "AI - Automation",
+  chip: "Applied AI",
+  items: [
+    "LLM integration & orchestration",
+    "Speech-to-Text (Whisper)",
+    "Vision-based embeddings & recognition",
+    "Automation pipelines"
+  ],
+  key: "ai"
+}
               ].map((block) => (
                 <button
                   key={block.title}
@@ -168,11 +199,25 @@ export function CardHome({
                   onClick={() => onSelectFocus(block.key)}
                   className="flex h-full flex-col rounded-[22px] border border-white/60 bg-linear-to-br from-indigo-50/90 via-white to-white/95 p-4 text-left shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl transition duration-200 hover:-translate-y-1 cursor-pointer"
                 >
-                  <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
-                    {block.chip}
+                   <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-slate-500">
+                     {block.chip}
+                   </div>
+                   <div className="text-base font-semibold text-slate-900">{block.title}</div>
+                  <div className="flex-1 pb-1 text-[clamp(0.74rem,0.85vw,0.88rem)] leading-5 text-slate-600">
+                    {block.items.map((item, idx) => (
+                      <div key={`${block.key}-${idx}`}>
+                        <span
+                          className={
+                            idx < block.items.length - 1
+                              ? "after:ml-2 after:text-slate-300 after:content-['•']"
+                              : ""
+                          }
+                        >
+                          {item}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                  <div className="text-base font-semibold text-slate-900">{block.title}</div>
-                  <div className="flex-1 text-sm leading-6 text-slate-600">{block.items.join(" / ")}</div>
                 </button>
               ))}
             </div>

@@ -66,7 +66,7 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
   }, [project.documents]);
 
   return (
-    <aside className="relative flex h-full w-full flex-col rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_70px_rgba(15,23,42,0.18)]">
+    <aside className="relative flex h-full w-full flex-col rounded-[30px] border border-white/50 bg-linear-to-b from-white/95 to-slate-100/85 p-6 shadow-[0_25px_80px_rgba(79,70,229,0.16)]">
 
       <div className="mb-4 h-1 w-full rounded-full bg-linear-to-r from-white/0 via-white/70 to-white/0" />
 
@@ -80,7 +80,7 @@ export default function CardInfo({ project, onClose = () => {}, githubToken = nu
               </span>
             )}
             {project.favorite && (
-              <span className="rounded-full bg-amber-100/80 px-3 py-1 text-xs font-semibold text-amber-700 shadow">
+              <span className="rounded-full bg-indigo-100/80 px-3 py-1 text-xs font-semibold text-indigo-700 shadow">
                 Prioritario
               </span>
             )}
